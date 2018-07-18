@@ -1,7 +1,7 @@
 package com.xiiilab.metrix.viewmodel;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.SparseArray;
 import com.xiiilab.metrix.Repository;
@@ -9,8 +9,9 @@ import com.xiiilab.metrix.persistance.MetricEntity;
 
 public class ListViewModel extends ViewModel {
 
-    private final MutableLiveData<MetricEntity> mSelected = new MutableLiveData<>();
+    private final MediatorLiveData<MetricEntity> mSelected = new MediatorLiveData<>();
     private final SparseArray<ItemViewModel> mItemViewModels = new SparseArray<>();
+    private LiveData<MetricEntity> mSelectedSource;
     private Repository mRepository;
     private boolean mDetailAvailable;
 
@@ -18,8 +19,10 @@ public class ListViewModel extends ViewModel {
         mRepository = repository;
     }
 
-    public void select(MetricEntity item) {
-        mSelected.setValue(item);
+    public void select(LiveData<MetricEntity> item) {
+        mSelected.removeSource(mSelectedSource);
+        mSelectedSource = item;
+        mSelected.addSource(mSelectedSource, mSelected::setValue);
     }
 
     public LiveData<MetricEntity> getSelected() {
