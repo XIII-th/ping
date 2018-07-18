@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Metrix</string>
+    <string name="title_metric_detail">Metric Detail</string>
+</resources>
