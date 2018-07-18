@@ -19,7 +19,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
     private final ListViewModel mListViewModel;
     private int mCount;
 
-    RecyclerViewAdapter(LifecycleOwner liveCycleOwner, ListViewModel listViewModel) {
+    public RecyclerViewAdapter(LifecycleOwner liveCycleOwner, ListViewModel listViewModel) {
         mLifecycleOwner = liveCycleOwner;
         mListViewModel = listViewModel;
         mListViewModel.count().observe(liveCycleOwner, this::refreshCount);
@@ -47,8 +47,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
     private void refreshCount(Integer count) {
         if (count == null)
             throw new IllegalArgumentException("Unexpected null count");
-        mCount = count;
-        // TODO: notify certain item
-        notifyDataSetChanged();
+        if (mCount != count) {
+            mCount = count;
+            // TODO: notify certain item
+            notifyDataSetChanged();
+        }
     }
 }

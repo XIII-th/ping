@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.SparseArray;
-import com.xiiilab.metrix.persistance.DummyDataBase;
+import com.xiiilab.metrix.Repository;
 import com.xiiilab.metrix.persistance.MetricEntity;
 
 public class ListViewModel extends ViewModel {
@@ -24,12 +24,12 @@ public class ListViewModel extends ViewModel {
     public ItemViewModel getItem(int id) {
         // TODO: reuse itemViewModels like view holder in recycler view
         ItemViewModel itemViewModel = mItemViewModels.get(id, new ItemViewModel());
-        itemViewModel.setEntity(DummyDataBase.instance().get(id));
+        itemViewModel.setEntity(Repository.getInstance().get(id));
         return itemViewModel;
     }
 
     public LiveData<Integer> count() {
-        return DummyDataBase.instance().getCount();
+        return Repository.getInstance().getCount();
     }
 
     public boolean isDetailAvailable() {

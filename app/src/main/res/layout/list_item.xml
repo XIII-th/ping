@@ -13,9 +13,15 @@
                   android:onClickListener="@{() -> listVm.select(itemVm.entity)}">
 
         <TextView
-                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
                 android:text="@{itemVm.entity.title}"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text='@{String.valueOf(itemVm.entity.counter)}'/>
     </LinearLayout>
 </layout>
