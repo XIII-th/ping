@@ -10,12 +10,17 @@ public class MetricsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Repository.init(this);
+
+        Repository repository = new Repository(this);
+        getLifecycle().addObserver(repository);
+
         ListViewModel listViewModel = ViewModelProviders.of(this).get(ListViewModel.class);
+        listViewModel.setRepository(repository);
         listViewModel.setDetailAvailable(findViewById(R.id.detail_fragment) != null);
+
         setContentView(R.layout.metrics_activity);
 
-        DummyMetricsProvider provider = new DummyMetricsProvider(Repository.getInstance());
+        DummyMetricsProvider provider = new DummyMetricsProvider(repository);
         provider.enable();
         getLifecycle().addObserver(provider);
     }

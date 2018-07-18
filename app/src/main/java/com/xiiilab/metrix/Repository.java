@@ -1,6 +1,9 @@
 package com.xiiilab.metrix;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import com.xiiilab.metrix.persistance.DataBase;
@@ -9,25 +12,18 @@ import com.xiiilab.metrix.persistance.MetricEntity;
 /**
  * Created by Sergey on 18.07.2018
  */
-public class Repository {
+public class Repository implements LifecycleObserver {
 
-    private static Repository INSTANCE;
+    private DataBase mDataBase;
 
-    private final DataBase mDataBase;
-
-    private Repository(DataBase db) {
-        mDataBase = db;
+    public Repository(Context context) {
+        mDataBase = Room.databaseBuilder(context, DataBase.class, "metrix.db").build();
     }
 
-    public static Repository getInstance() {
-        if (INSTANCE == null)
-            throw new IllegalStateException("Repository is not initialised");
-        return INSTANCE;
-    }
-
-    public static void init(Context context) {
-        DataBase db = Room.databaseBuilder(context, DataBase.class, "metrix.db").build();
-        INSTANCE = new Repository(db);
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void close() {
+        mDataBase.close();
+        mDataBase = null;
     }
 
     public LiveData<MetricEntity> get(int id) {
