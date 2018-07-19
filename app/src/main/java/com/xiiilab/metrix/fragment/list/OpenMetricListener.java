@@ -21,14 +21,13 @@ public class OpenMetricListener {
     }
 
     public void onClick(LiveData<MetricEntity> selectedSource) {
-        if (mListViewModel.isDetailAvailable())
-            mListViewModel.select(selectedSource);
-        else {
+        mListViewModel.select(selectedSource);
+        if (!mListViewModel.isDetailAvailable()) {
             Intent intent = new Intent(mContext, DetailActivity.class);
             MetricEntity entity = selectedSource.getValue();
             if (entity == null)
                 throw new IllegalStateException("Selected live data source has not entity");
-            intent.putExtra(DetailActivity.METRIC_KEY, entity.getId());
+            intent.putExtra(DetailActivity.METRIC_ID, entity.getId());
             mContext.startActivity(intent);
         }
     }

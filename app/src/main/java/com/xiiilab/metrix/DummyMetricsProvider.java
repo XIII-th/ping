@@ -31,6 +31,9 @@ public class DummyMetricsProvider implements LifecycleObserver {
     private final Repository mRepository;
     private volatile Future<?> mActiveGenerator;
 
+    private final Object mMetricIdLock;
+    private volatile Integer mTrackedMetricId;
+
     private DummyMetricsProvider(Repository repository) {
         mRepository = repository;
         mThreadGroup = new ThreadGroup("DUMMY_METRICS_THREAD_GROUP");
@@ -38,9 +41,10 @@ public class DummyMetricsProvider implements LifecycleObserver {
         int poolSize = Runtime.getRuntime().availableProcessors();
         if (poolSize > 1)
             // one thread for request generator
-            poolSize --;
+            poolSize--;
         mRequestExecutor = Executors.newFixedThreadPool(poolSize, this::createThread);
         mRandom = new Random();
+        mMetricIdLock = new Object();
     }
 
     public static void init(Repository repository) {
@@ -48,6 +52,22 @@ public class DummyMetricsProvider implements LifecycleObserver {
             throw new IllegalStateException("Metrics provider already initialised");
         mInstance = new DummyMetricsProvider(repository);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(mInstance);
+    }
+
+    public static DummyMetricsProvider getInstance() {
+        if (mInstance == null)
+            throw new IllegalStateException("Metrics provider is not initialised");
+        return mInstance;
+    }
+
+    public void setTrackedMetric(Integer id) {
+        synchronized (mMetricIdLock) {
+            mTrackedMetricId = id;
+        }
+    }
+
+    public void resetTracking() {
+        setTrackedMetric(null);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -68,15 +88,12 @@ public class DummyMetricsProvider implements LifecycleObserver {
         Log.d(getClass().getName(), "Request generator started");
         Thread currentThread = Thread.currentThread();
         while (!currentThread.isInterrupted()) {
-            for (int id = 0; id < METRICS_COUNT; id++) {
-                if (currentThread.isInterrupted())
-                    break;
-                MetricEntity entity = mRepository.get(id).getValue();
-                if (entity == null)
-                    entity = new MetricEntity(id, "Entity " + id, 0);
-                RequestSimulator simulator = new RequestSimulator(mRandom, mRepository, entity);
-                mRequestExecutor.execute(simulator);
-            }
+            if (!trackSingle())
+                for (int id = 0; id < METRICS_COUNT; id++) {
+                    if (currentThread.isInterrupted())
+                        break;
+                    trackMetric(id);
+                }
 
             try {
                 Thread.sleep(REFRESH_FREQUENCY);
@@ -85,6 +102,24 @@ public class DummyMetricsProvider implements LifecycleObserver {
             }
         }
         Log.d(getClass().getName(), "Request generator stopped");
+    }
+
+    private boolean trackSingle() {
+        synchronized (mMetricIdLock) {
+            if (mTrackedMetricId != null) {
+                trackMetric(mTrackedMetricId);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private void trackMetric(int id) {
+        MetricEntity entity = mRepository.get(id).getValue();
+        if (entity == null)
+            entity = new MetricEntity(id, "Entity " + id, 0);
+        RequestSimulator simulator = new RequestSimulator(mRandom, mRepository, entity);
+        mRequestExecutor.execute(simulator);
     }
 
     private Thread createThread(@NonNull Runnable runnable) {
