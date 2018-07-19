@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.xiiilab.metrix.BR;
 import com.xiiilab.metrix.databinding.MetricDetailFragmentBinding;
 import com.xiiilab.metrix.viewmodel.ItemViewModel;
-import com.xiiilab.metrix.viewmodel.ListViewModel;
 
 public class DetailFragment extends Fragment {
 
@@ -22,9 +21,7 @@ public class DetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getActivity() == null)
             throw new IllegalStateException("Unable to get activity");
-        ListViewModel listViewModel = ViewModelProviders.of(getActivity()).get(ListViewModel.class);
-        mItemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        mItemViewModel.setEntity(listViewModel.getSelected());
+        mItemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.xiiilab.metrix;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import com.xiiilab.metrix.viewmodel.ItemViewModel;
 import com.xiiilab.metrix.viewmodel.ListViewModel;
 
 public class MetricsActivity extends AppCompatActivity {
@@ -11,17 +12,17 @@ public class MetricsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Repository repository = new Repository(this);
-        getLifecycle().addObserver(repository);
-
         ListViewModel listViewModel = ViewModelProviders.of(this).get(ListViewModel.class);
-        listViewModel.setRepository(repository);
-        listViewModel.setDetailAvailable(findViewById(R.id.detail_fragment) != null);
+        listViewModel.setRepository(Repository.getInstance());
 
         setContentView(R.layout.metrics_activity);
 
-        DummyMetricsProvider provider = new DummyMetricsProvider(repository);
-        provider.enable();
-        getLifecycle().addObserver(provider);
+        if (findViewById(R.id.detail_fragment) == null)
+            listViewModel.setDetailAvailable(false);
+        else {
+            listViewModel.setDetailAvailable(true);
+            ItemViewModel itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+            itemViewModel.setEntity(listViewModel.getSelected());
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.xiiilab.metrix;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import com.xiiilab.metrix.persistance.MetricEntity;
@@ -10,6 +11,7 @@ import com.xiiilab.metrix.persistance.MetricEntity;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by Sergey on 18.07.2018
@@ -17,55 +19,72 @@ import java.util.concurrent.Executors;
 public class DummyMetricsProvider implements LifecycleObserver {
 
     private static final byte METRICS_COUNT = 10;
-    private static final long REFRESH_FREQUENCY = 5000L;
+    private static final long REFRESH_FREQUENCY = 3000L;
+    private static final int LATENCY_LIMIT = 1000;
+
+    private static DummyMetricsProvider mInstance;
+
+    private final ExecutorService mRequestGeneratorExecutor;
     private final ThreadGroup mThreadGroup;
-    private final ExecutorService mExecutorService;
+    private final ExecutorService mRequestExecutor;
     private final Random mRandom;
     private final Repository mRepository;
-    private boolean mEnabled;
+    private volatile Future<?> mActiveGenerator;
 
-    public DummyMetricsProvider(Repository repository) {
+    private DummyMetricsProvider(Repository repository) {
         mRepository = repository;
         mThreadGroup = new ThreadGroup("DUMMY_METRICS_THREAD_GROUP");
-        mExecutorService = Executors.newFixedThreadPool(4, this::createThread);
+        mRequestGeneratorExecutor = Executors.newSingleThreadExecutor();
+        int poolSize = Runtime.getRuntime().availableProcessors();
+        if (poolSize > 1)
+            // one thread for request generator
+            poolSize --;
+        mRequestExecutor = Executors.newFixedThreadPool(poolSize, this::createThread);
         mRandom = new Random();
     }
 
-    public void enable() {
-        mEnabled = true;
-    }
-
-    public void disable() {
-        mEnabled = false;
+    public static void init(Repository repository) {
+        if (mInstance != null)
+            throw new IllegalStateException("Metrics provider already initialised");
+        mInstance = new DummyMetricsProvider(repository);
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(mInstance);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void startUpdate() {
-        if (mEnabled)
-            mExecutorService.submit(this::generateResponses);
+    public void enable() {
+        if (mActiveGenerator == null || mActiveGenerator.isCancelled())
+            mActiveGenerator = mRequestGeneratorExecutor.submit(this::generateResponses);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void stopUpdate() {
-        mExecutorService.shutdown();
+    public void disable() {
+        if (mActiveGenerator != null) {
+            mActiveGenerator.cancel(true);
+            mActiveGenerator = null;
+        }
     }
 
     private void generateResponses() {
-        while (!mExecutorService.isShutdown()) {
+        Log.d(getClass().getName(), "Request generator started");
+        Thread currentThread = Thread.currentThread();
+        while (!currentThread.isInterrupted()) {
             for (int id = 0; id < METRICS_COUNT; id++) {
+                if (currentThread.isInterrupted())
+                    break;
                 MetricEntity entity = mRepository.get(id).getValue();
                 if (entity == null)
                     entity = new MetricEntity(id, "Entity " + id, 0);
                 RequestSimulator simulator = new RequestSimulator(mRandom, mRepository, entity);
-                mExecutorService.submit(simulator);
+                mRequestExecutor.execute(simulator);
             }
 
             try {
                 Thread.sleep(REFRESH_FREQUENCY);
             } catch (InterruptedException e) {
-                Log.e(getClass().getName(), "Unable to sleep in response generator", e);
+                Log.d(getClass().getName(), "Thread interrupted while sleep");
             }
         }
+        Log.d(getClass().getName(), "Request generator stopped");
     }
 
     private Thread createThread(@NonNull Runnable runnable) {
@@ -89,7 +108,7 @@ public class DummyMetricsProvider implements LifecycleObserver {
         @Override
         public void run() {
             try {
-                int latency = mRandom.nextInt(3000);
+                int latency = mRandom.nextInt(LATENCY_LIMIT);
                 Thread.sleep(latency);
                 mMetricEntity.setCounter(latency);
                 mRepository.insert(mMetricEntity);

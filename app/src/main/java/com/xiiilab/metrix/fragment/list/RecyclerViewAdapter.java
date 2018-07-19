@@ -3,12 +3,14 @@ package com.xiiilab.metrix.fragment.list;
 import android.arch.lifecycle.LifecycleOwner;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import com.xiiilab.metrix.viewmodel.ListViewModel;
+import com.xiiilab.metrix.BR;
 import com.xiiilab.metrix.R;
 import com.xiiilab.metrix.databinding.ListItemBinding;
+import com.xiiilab.metrix.viewmodel.ListViewModel;
 
 /**
  * Created by Sergey on 17.07.2018
@@ -17,12 +19,14 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
 
     private final LifecycleOwner mLifecycleOwner;
     private final ListViewModel mListViewModel;
+    private final OpenMetricListener mListener;
     private int mCount;
 
-    public RecyclerViewAdapter(LifecycleOwner liveCycleOwner, ListViewModel listViewModel) {
-        mLifecycleOwner = liveCycleOwner;
+    public RecyclerViewAdapter(Fragment fragment, ListViewModel listViewModel) {
+        mLifecycleOwner = fragment;
         mListViewModel = listViewModel;
-        mListViewModel.count().observe(liveCycleOwner, this::refreshCount);
+        mListViewModel.count().observe(mLifecycleOwner, this::refreshCount);
+        mListener = new OpenMetricListener(fragment.getContext(), mListViewModel);
     }
 
     @NonNull
@@ -36,7 +40,9 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BindingViewHolder holder, int position) {
-        holder.bind(mListViewModel, mListViewModel.getItem(position));
+        holder.binding.setVariable(BR.listVm, mListViewModel);
+        holder.binding.setVariable(BR.itemVm, mListViewModel.getItem(position));
+        holder.binding.setVariable(BR.listener, mListener);
     }
 
     @Override
