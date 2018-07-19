@@ -9,13 +9,19 @@
     <fragment
             android:name="com.xiiilab.metrix.fragment.list.ListFragment"
             android:id="@+id/list_fragment"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
-    <fragment
-            android:name="com.xiiilab.metrix.fragment.detail.DetailFragment"
-            android:id="@+id/detail_fragment"
-            android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:theme="@style/Base.CardView"
+            android:layout_margin="@dimen/cardview_margin">
+        <fragment
+                android:name="com.xiiilab.metrix.fragment.detail.DetailFragment"
+                android:id="@+id/detail_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -1,8 +1,8 @@
 package com.xiiilab.metrix;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import com.xiiilab.metrix.persistance.MetricEntity;
 import com.xiiilab.metrix.viewmodel.ItemViewModel;
 import com.xiiilab.metrix.viewmodel.ListViewModel;
