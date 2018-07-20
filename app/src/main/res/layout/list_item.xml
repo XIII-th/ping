@@ -5,15 +5,15 @@
 
         <variable
                 name="listVm"
-                type="com.xiiilab.metrix.viewmodel.ListViewModel"/>
+                type="com.xiiilab.ping.viewmodel.ListViewModel"/>
 
         <variable
                 name="itemVm"
-                type="com.xiiilab.metrix.viewmodel.ItemViewModel"/>
+                type="com.xiiilab.ping.viewmodel.ItemViewModel"/>
 
         <variable
                 name="listener"
-                type="com.xiiilab.metrix.fragment.list.OpenMetricListener"/>
+                type="com.xiiilab.ping.fragment.list.OpenHostListener"/>
     </data>
 
     <android.support.v7.widget.CardView
@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
-                    android:text='@{String.valueOf(itemVm.entity.counter)}'/>
+                    android:text='@{String.valueOf(itemVm.entity.lastPing)}'/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </layout>

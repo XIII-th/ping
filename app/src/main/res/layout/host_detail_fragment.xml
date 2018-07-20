@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="itemVm" type="com.xiiilab.metrix.viewmodel.ItemViewModel"/>
+        <variable name="itemVm" type="com.xiiilab.ping.viewmodel.ItemViewModel"/>
     </data>
 
     <LinearLayout
@@ -16,6 +16,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(itemVm.entity.counter)}"/>
+                android:text="@{String.valueOf(itemVm.entity.lastPing)}"/>
     </LinearLayout>
 </layout>

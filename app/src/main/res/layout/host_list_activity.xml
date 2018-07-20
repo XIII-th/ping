@@ -7,7 +7,7 @@
         android:baselineAligned="false">
 
     <fragment
-            android:name="com.xiiilab.metrix.fragment.list.ListFragment"
+            android:name="com.xiiilab.ping.fragment.list.ListFragment"
             android:id="@+id/list_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

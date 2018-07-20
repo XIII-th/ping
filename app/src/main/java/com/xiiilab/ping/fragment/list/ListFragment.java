@@ -1,35 +1,36 @@
-package com.xiiilab.metrix.fragment.detail;
+package com.xiiilab.ping.fragment.list;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.xiiilab.metrix.BR;
-import com.xiiilab.metrix.databinding.MetricDetailFragmentBinding;
-import com.xiiilab.metrix.viewmodel.ItemViewModel;
+import com.xiiilab.ping.R;
+import com.xiiilab.ping.viewmodel.ListViewModel;
 
-public class DetailFragment extends Fragment {
+public class ListFragment extends Fragment {
 
-    private ItemViewModel mItemViewModel;
+    private ListViewModel mListViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() == null)
             throw new IllegalStateException("Unable to get activity");
-        mItemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
+        mListViewModel = ViewModelProviders.of(getActivity()).get(ListViewModel.class);
+        // TODO: Use the ViewModel. Set selected item
     }
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        MetricDetailFragmentBinding binding = MetricDetailFragmentBinding.inflate(inflater, container, false);
-        binding.setLifecycleOwner(this);
-        binding.setVariable(BR.itemVm, mItemViewModel);
-        return binding.getRoot();
+        RecyclerView rv = (RecyclerView) inflater.inflate(R.layout.host_list_fragment, container, false);
+        rv.setAdapter(new RecyclerViewAdapter(this, mListViewModel));
+        return rv;
     }
 }

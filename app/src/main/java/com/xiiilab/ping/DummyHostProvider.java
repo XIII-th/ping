@@ -1,4 +1,4 @@
-package com.xiiilab.metrix;
+package com.xiiilab.ping;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
@@ -6,7 +6,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import com.xiiilab.metrix.persistance.MetricEntity;
+import com.xiiilab.ping.persistance.HostEntity;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -16,13 +16,13 @@ import java.util.concurrent.Future;
 /**
  * Created by Sergey on 18.07.2018
  */
-public class DummyMetricsProvider implements LifecycleObserver {
+public class DummyHostProvider implements LifecycleObserver {
 
-    private static final byte METRICS_COUNT = 10;
+    private static final byte HOST_COUNT = 10;
     private static final long REFRESH_FREQUENCY = 3000L;
     private static final int LATENCY_LIMIT = 1000;
 
-    private static DummyMetricsProvider mInstance;
+    private static DummyHostProvider mInstance;
 
     private final ExecutorService mRequestGeneratorExecutor;
     private final ThreadGroup mThreadGroup;
@@ -31,12 +31,12 @@ public class DummyMetricsProvider implements LifecycleObserver {
     private final Repository mRepository;
     private volatile Future<?> mActiveGenerator;
 
-    private final Object mMetricIdLock;
-    private volatile Integer mTrackedMetricId;
+    private final Object mHostLock;
+    private volatile String mTrackedHost;
 
-    private DummyMetricsProvider(Repository repository) {
+    private DummyHostProvider(Repository repository) {
         mRepository = repository;
-        mThreadGroup = new ThreadGroup("DUMMY_METRICS_THREAD_GROUP");
+        mThreadGroup = new ThreadGroup("DUMMY_HOST_PING_THREAD_GROUP");
         mRequestGeneratorExecutor = Executors.newSingleThreadExecutor();
         int poolSize = Runtime.getRuntime().availableProcessors();
         if (poolSize > 1)
@@ -44,30 +44,30 @@ public class DummyMetricsProvider implements LifecycleObserver {
             poolSize--;
         mRequestExecutor = Executors.newFixedThreadPool(poolSize, this::createThread);
         mRandom = new Random();
-        mMetricIdLock = new Object();
+        mHostLock = new Object();
     }
 
     public static void init(Repository repository) {
         if (mInstance != null)
-            throw new IllegalStateException("Metrics provider already initialised");
-        mInstance = new DummyMetricsProvider(repository);
+            throw new IllegalStateException("Host provider already initialised");
+        mInstance = new DummyHostProvider(repository);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(mInstance);
     }
 
-    public static DummyMetricsProvider getInstance() {
+    public static DummyHostProvider getInstance() {
         if (mInstance == null)
-            throw new IllegalStateException("Metrics provider is not initialised");
+            throw new IllegalStateException("Host provider is not initialised");
         return mInstance;
     }
 
-    public void setTrackedMetric(Integer id) {
-        synchronized (mMetricIdLock) {
-            mTrackedMetricId = id;
+    public void setTrackedHost(String host) {
+        synchronized (mHostLock) {
+            mTrackedHost = host;
         }
     }
 
     public void resetTracking() {
-        setTrackedMetric(null);
+        setTrackedHost(null);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -89,10 +89,10 @@ public class DummyMetricsProvider implements LifecycleObserver {
         Thread currentThread = Thread.currentThread();
         while (!currentThread.isInterrupted()) {
             if (!trackSingle())
-                for (int id = 0; id < METRICS_COUNT; id++) {
+                for (int id = 0; id < HOST_COUNT; id++) {
                     if (currentThread.isInterrupted())
                         break;
-                    trackMetric(id);
+//                    trackHost(id);
                 }
 
             try {
@@ -105,19 +105,19 @@ public class DummyMetricsProvider implements LifecycleObserver {
     }
 
     private boolean trackSingle() {
-        synchronized (mMetricIdLock) {
-            if (mTrackedMetricId != null) {
-                trackMetric(mTrackedMetricId);
+        synchronized (mHostLock) {
+            if (mTrackedHost != null) {
+                trackHost(mTrackedHost);
                 return true;
             }
             return false;
         }
     }
 
-    private void trackMetric(int id) {
-        MetricEntity entity = mRepository.get(id).getValue();
+    private void trackHost(String host) {
+        HostEntity entity = mRepository.get(host).getValue();
         if (entity == null)
-            entity = new MetricEntity(id, "Entity " + id, 0);
+            entity = new HostEntity(host, "Entity " + host, 0);
         RequestSimulator simulator = new RequestSimulator(mRandom, mRepository, entity);
         mRequestExecutor.execute(simulator);
     }
@@ -132,12 +132,12 @@ public class DummyMetricsProvider implements LifecycleObserver {
 
         private final Random mRandom;
         private final Repository mRepository;
-        private final MetricEntity mMetricEntity;
+        private final HostEntity mHostEntity;
 
-        private RequestSimulator(Random random, Repository repository, MetricEntity metricEntity) {
+        private RequestSimulator(Random random, Repository repository, HostEntity hostEntity) {
             mRandom = random;
             mRepository = repository;
-            mMetricEntity = metricEntity;
+            mHostEntity = hostEntity;
         }
 
         @Override
@@ -145,8 +145,8 @@ public class DummyMetricsProvider implements LifecycleObserver {
             try {
                 int latency = mRandom.nextInt(LATENCY_LIMIT);
                 Thread.sleep(latency);
-                mMetricEntity.setCounter(latency);
-                mRepository.insert(mMetricEntity);
+                mHostEntity.setLastPing(latency);
+                mRepository.insert(mHostEntity);
             } catch (InterruptedException e) {
                 Log.e(getClass().getName(), "Unable to sleep request thread", e);
             }

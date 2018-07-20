@@ -1,10 +1,12 @@
-package com.xiiilab.metrix;
+package com.xiiilab.ping;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import com.xiiilab.metrix.persistance.DataBase;
-import com.xiiilab.metrix.persistance.MetricEntity;
+import com.xiiilab.ping.persistance.DataBase;
+import com.xiiilab.ping.persistance.HostEntity;
+
+import java.util.List;
 
 /**
  * Created by Sergey on 18.07.2018
@@ -16,7 +18,7 @@ public class Repository {
     private DataBase mDataBase;
 
     private Repository(Context appContext) {
-        mDataBase = Room.databaseBuilder(appContext, DataBase.class, "metrix.db").build();
+        mDataBase = Room.databaseBuilder(appContext, DataBase.class, "ping.db").allowMainThreadQueries().build();
     }
 
     public static void init(Context appContext) {
@@ -32,15 +34,15 @@ public class Repository {
         return mInstance;
     }
 
-    public LiveData<MetricEntity> get(int id) {
-        return mDataBase.getMetricsDao().get(id);
+    public LiveData<HostEntity> get(String host) {
+        return mDataBase.getHostDao().get(host);
     }
 
-    public LiveData<Integer> getCount() {
-        return mDataBase.getMetricsDao().getCount();
+    public LiveData<List<String>> hostList() {
+        return mDataBase.getHostDao().hostList();
     }
 
-    public void insert(MetricEntity entity) {
-        mDataBase.getMetricsDao().insert(entity);
+    public void insert(HostEntity entity) {
+        mDataBase.getHostDao().insert(entity);
     }
 }

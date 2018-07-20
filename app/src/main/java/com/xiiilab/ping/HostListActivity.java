@@ -1,17 +1,17 @@
-package com.xiiilab.metrix;
+package com.xiiilab.ping;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import com.xiiilab.metrix.persistance.MetricEntity;
-import com.xiiilab.metrix.viewmodel.ItemViewModel;
-import com.xiiilab.metrix.viewmodel.ListViewModel;
+import com.xiiilab.ping.persistance.HostEntity;
+import com.xiiilab.ping.viewmodel.ItemViewModel;
+import com.xiiilab.ping.viewmodel.ListViewModel;
 
-public class MetricsActivity extends AppCompatActivity {
+public class HostListActivity extends AppCompatActivity {
 
-    private static final String SELECTED_ID = "com.xiiilab.metrix.MetricsActivity SELECTED_ID";
+    private static final String SELECTED_HOST = "com.xiiilab.ping.HostListActivity SELECTED_HOST";
 
-    private int mSelectedId;
+    private String mSelectedHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class MetricsActivity extends AppCompatActivity {
         ListViewModel listViewModel = ViewModelProviders.of(this).get(ListViewModel.class);
         listViewModel.setRepository(Repository.getInstance());
 
-        setContentView(R.layout.metrics_activity);
+        setContentView(R.layout.host_list_activity);
 
         if (findViewById(R.id.detail_fragment) == null)
             listViewModel.setDetailAvailable(false);
@@ -30,19 +30,19 @@ public class MetricsActivity extends AppCompatActivity {
             itemViewModel.setEntity(listViewModel.getSelected());
         }
 
-        listViewModel.getSelected().observe(this, this::setSelectedId);
+        listViewModel.getSelected().observe(this, this::setSelectedHost);
 
         if (savedInstanceState != null)
-            listViewModel.select(Repository.getInstance().get(savedInstanceState.getInt(SELECTED_ID)));
+            listViewModel.select(Repository.getInstance().get(savedInstanceState.getString(SELECTED_HOST)));
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SELECTED_ID, mSelectedId);
+        outState.putString(SELECTED_HOST, mSelectedHost);
     }
 
-    private void setSelectedId(MetricEntity entity) {
-        mSelectedId = entity.getId();
+    private void setSelectedHost(HostEntity entity) {
+        mSelectedHost = entity == null ? null : entity.getHost();
     }
 }

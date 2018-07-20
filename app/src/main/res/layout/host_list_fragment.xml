@@ -7,5 +7,5 @@
         android:layout_width="match_parent"
         android:id="@+id/list"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context=".fragment.list.ListFragment"
+        tools:context="com.xiiilab.ping.fragment.list.ListFragment"
         tools:listitem="@layout/list_item"/>

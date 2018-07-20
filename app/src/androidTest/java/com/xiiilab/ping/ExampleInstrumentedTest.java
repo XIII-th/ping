@@ -1,4 +1,4 @@
-package com.xiiilab.metrix;
+package com.xiiilab.ping;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.xiiilab.metrix", appContext.getPackageName());
+        assertEquals("com.xiiilab.ping", appContext.getPackageName());
     }
 }

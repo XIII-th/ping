@@ -1,4 +1,4 @@
-package com.xiiilab.metrix;
+package com.xiiilab.ping;
 
 import org.junit.Test;
 

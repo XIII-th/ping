@@ -1,4 +1,4 @@
-package com.xiiilab.metrix;
+package com.xiiilab.ping;
 
 import android.app.Application;
 
@@ -11,6 +11,9 @@ public class AppInitializer extends Application {
     public void onCreate() {
         super.onCreate();
         Repository.init(this);
-        DummyMetricsProvider.init(Repository.getInstance());
+        DummyHostProvider.init(Repository.getInstance());
+
+//        HostEntity localhost = new HostEntity("127.0.0.1", "localhost", 0);
+//        Repository.getInstance().insert(localhost);
     }
 }

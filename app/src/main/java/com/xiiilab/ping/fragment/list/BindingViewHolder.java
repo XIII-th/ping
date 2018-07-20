@@ -1,7 +1,7 @@
-package com.xiiilab.metrix.fragment.list;
+package com.xiiilab.ping.fragment.list;
 
 import android.support.v7.widget.RecyclerView;
-import com.xiiilab.metrix.databinding.ListItemBinding;
+import com.xiiilab.ping.databinding.ListItemBinding;
 
 /**
  * Created by Sergey on 17.07.2018

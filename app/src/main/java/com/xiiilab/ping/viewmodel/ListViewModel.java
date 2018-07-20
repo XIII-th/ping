@@ -1,17 +1,19 @@
-package com.xiiilab.metrix.viewmodel;
+package com.xiiilab.ping.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.SparseArray;
-import com.xiiilab.metrix.Repository;
-import com.xiiilab.metrix.persistance.MetricEntity;
+import com.xiiilab.ping.Repository;
+import com.xiiilab.ping.persistance.HostEntity;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class ListViewModel extends ViewModel {
 
-    private final MediatorLiveData<MetricEntity> mSelected = new MediatorLiveData<>();
-    private final SparseArray<ItemViewModel> mItemViewModels = new SparseArray<>();
-    private LiveData<MetricEntity> mSelectedSource;
+    private final MediatorLiveData<HostEntity> mSelected = new MediatorLiveData<>();
+    private final HashMap<String, ItemViewModel> mItemViewModels = new HashMap<>();
+    private LiveData<HostEntity> mSelectedSource;
     private Repository mRepository;
     private boolean mDetailAvailable;
 
@@ -19,25 +21,27 @@ public class ListViewModel extends ViewModel {
         mRepository = repository;
     }
 
-    public void select(LiveData<MetricEntity> item) {
+    public void select(LiveData<HostEntity> item) {
         mSelected.removeSource(mSelectedSource);
         mSelectedSource = item;
         mSelected.addSource(mSelectedSource, mSelected::setValue);
     }
 
-    public LiveData<MetricEntity> getSelected() {
+    public LiveData<HostEntity> getSelected() {
         return mSelected;
     }
 
-    public ItemViewModel getItem(int id) {
+    public ItemViewModel getItem(String host) {
         // TODO: reuse itemViewModels like view holder in recycler view
-        ItemViewModel itemViewModel = mItemViewModels.get(id, new ItemViewModel());
-        itemViewModel.setEntity(mRepository.get(id));
+        ItemViewModel itemViewModel = mItemViewModels.get(host);
+        if (itemViewModel == null)
+            mItemViewModels.put(host, itemViewModel = new ItemViewModel());
+        itemViewModel.setEntity(mRepository.get(host));
         return itemViewModel;
     }
 
-    public LiveData<Integer> count() {
-        return mRepository.getCount();
+    public LiveData<List<String>> hostList() {
+        return mRepository.hostList();
     }
 
     public boolean isDetailAvailable() {

@@ -7,7 +7,7 @@
         android:baselineAligned="false">
 
     <fragment
-            android:name="com.xiiilab.metrix.fragment.list.ListFragment"
+            android:name="com.xiiilab.ping.fragment.list.ListFragment"
             android:id="@+id/list_fragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -19,7 +19,7 @@
             android:theme="@style/Base.CardView"
             android:layout_margin="@dimen/cardview_margin">
         <fragment
-                android:name="com.xiiilab.metrix.fragment.detail.DetailFragment"
+                android:name="com.xiiilab.ping.fragment.detail.DetailFragment"
                 android:id="@+id/detail_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

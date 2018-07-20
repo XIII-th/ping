@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.xiiilab.metrix">
+          package="com.xiiilab.ping">
 
     <application
-            android:name=".AppInitializer"
+            android:name="com.xiiilab.ping.AppInitializer"
             android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -11,7 +11,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".MetricsActivity"
+                android:name="com.xiiilab.ping.HostListActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,13 +21,13 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".DetailActivity"
+                android:name="com.xiiilab.ping.HostDetailActivity"
                 android:label="@string/title_activity_detail"
-                android:parentActivityName=".MetricsActivity"
+                android:parentActivityName="com.xiiilab.ping.HostListActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.xiiilab.metrix.MetricsActivity"/>
+                    android:value="com.xiiilab.ping.HostListActivity"/>
         </activity>
     </application>
 
