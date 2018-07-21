@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Ping</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="add">Add</string>
+    <string name="add_new_host">Add new host</string>
+    <string name="ip_address_hint">IP address</string>
+    <string name="host_title">Title</string>
+
+    <string name="action_save">Save</string>
+    <string name="host_edit">Edit host</string>
+    <string name="host_timeout">Ping timeout</string>
 </resources>

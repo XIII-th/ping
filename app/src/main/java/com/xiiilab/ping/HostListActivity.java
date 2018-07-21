@@ -1,8 +1,10 @@
 package com.xiiilab.ping;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
 import com.xiiilab.ping.viewmodel.ListViewModel;
@@ -12,6 +14,10 @@ public class HostListActivity extends AppCompatActivity {
     private static final String SELECTED_HOST = "com.xiiilab.ping.HostListActivity SELECTED_HOST";
 
     private String mSelectedHost;
+
+    public void onAddHostButtonPressed(View v) {
+        startActivity(new Intent(this, EditActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

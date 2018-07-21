@@ -24,6 +24,7 @@ public class HostEntity {
 
     public HostEntity(@NonNull String host) {
         this.host = host;
+        timeout = 1000;
     }
 
     public HostEntity(@NonNull String host, String title, int lastPing) {

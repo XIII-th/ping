@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
             android:layout_height="wrap_content"
@@ -19,15 +20,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/host_list_activity_content"/>
+    <fragment
+            android:name="com.xiiilab.ping.EditFragment"
+            android:id="@+id/edit_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="onAddHostButtonPressed"
-            app:srcCompat="@drawable/ic_add_white"/>
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

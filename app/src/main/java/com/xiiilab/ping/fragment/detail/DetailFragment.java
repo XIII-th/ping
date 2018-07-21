@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.xiiilab.ping.databinding.HostDetailFragmentBinding;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
 
 public class DetailFragment extends Fragment {
@@ -25,10 +26,9 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-//        HostDetailFragmentBinding binding = HostDetailFragmentBinding.inflate(inflater, container, false);
-//        binding.setLifecycleOwner(this);
-//        binding.setVariable(BR.itemVm, mItemViewModel);
-//        return binding.getRoot();
-        throw new UnsupportedOperationException("Not implemented yet");
+        HostDetailFragmentBinding binding = HostDetailFragmentBinding.inflate(inflater, container, false);
+        binding.setLifecycleOwner(this);
+        binding.setItemVm(mItemViewModel);
+        return binding.getRoot();
     }
 }
