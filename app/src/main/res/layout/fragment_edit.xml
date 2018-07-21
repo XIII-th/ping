@@ -38,17 +38,30 @@
                     android:text="@={vm.title}"/>
         </android.support.design.widget.TextInputLayout>
 
-        <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="@string/host_timeout">-->
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ping_timeout">
 
-            <!--<android.support.design.widget.TextInputEditText-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@={vm.timeout}"-->
-                    <!--android:inputType="number"-->
-                    <!--android:maxLength="@integer/timeout_number_length"/>-->
-        <!--</android.support.design.widget.TextInputLayout>-->
+            <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={vm.timeout}"
+                    android:inputType="number"
+                    android:maxLength="@integer/timeout_number_length"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ping_frequency">
+
+            <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={vm.frequency}"
+                    android:inputType="number"
+                    android:maxLength="@integer/timeout_number_length"/>
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 </layout>

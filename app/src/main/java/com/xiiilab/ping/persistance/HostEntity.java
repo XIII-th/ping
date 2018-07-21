@@ -17,6 +17,8 @@ public class HostEntity {
 
     private String title;
 
+    private int frequency;
+
     private int timeout;
 
     @Ignore
@@ -24,7 +26,7 @@ public class HostEntity {
 
     public HostEntity(@NonNull String host) {
         this.host = host;
-        timeout = 1000;
+        frequency = timeout = 1000;
     }
 
     public HostEntity(@NonNull String host, String title, int lastPing) {
@@ -48,6 +50,14 @@ public class HostEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
     }
 
     public int getTimeout() {

@@ -1,4 +1,4 @@
-package com.xiiilab.ping;
+package com.xiiilab.ping.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -7,11 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.xiiilab.ping.R;
 import com.xiiilab.ping.viewmodel.EditViewModel;
 
 public class EditActivity extends AppCompatActivity {
 
-    public static final String EDIT_ENTITY_ID = "com.xiiilab.ping.EditActivity EDIT_ENTITY_ID";
+    public static final String EDIT_ENTITY_ID = "com.xiiilab.ping.activity.EditActivity EDIT_ENTITY_ID";
     private EditViewModel mViewModel;
 
     @Override

@@ -1,4 +1,4 @@
-package com.xiiilab.ping;
+package com.xiiilab.ping.fragment.edit;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;

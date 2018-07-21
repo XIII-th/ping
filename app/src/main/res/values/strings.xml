@@ -9,5 +9,6 @@
 
     <string name="action_save">Save</string>
     <string name="host_edit">Edit host</string>
-    <string name="host_timeout">Ping timeout</string>
+    <string name="ping_timeout">Ping timeout</string>
+    <string name="ping_frequency">Ping frequency</string>
 </resources>

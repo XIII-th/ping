@@ -3,7 +3,7 @@ package com.xiiilab.ping.fragment.list;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Intent;
-import com.xiiilab.ping.HostDetailActivity;
+import com.xiiilab.ping.activity.HostDetailActivity;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.viewmodel.ListViewModel;
 

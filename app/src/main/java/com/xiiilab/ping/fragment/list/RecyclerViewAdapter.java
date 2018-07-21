@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import com.xiiilab.ping.BR;
 import com.xiiilab.ping.R;
 import com.xiiilab.ping.databinding.ListItemBinding;
 import com.xiiilab.ping.viewmodel.ListViewModel;
@@ -44,9 +43,9 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BindingViewHolder holder, int position) {
-        holder.binding.setVariable(BR.listVm, mListViewModel);
-        holder.binding.setVariable(BR.itemVm, mListViewModel.getItem(mHostList.get(position)));
-        holder.binding.setVariable(BR.listener, mListener);
+        holder.binding.setListVm(mListViewModel);
+        holder.binding.setItemVm(mListViewModel.getItem(mHostList.get(position)));
+        holder.binding.setListener(mListener);
     }
 
     @Override

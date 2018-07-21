@@ -43,6 +43,14 @@ public class EditViewModel extends ViewModel {
         mEntity.setTitle(title);
     }
 
+    public int getFrequency() {
+        return mEntity.getFrequency();
+    }
+
+    public void setFrequency(int frequency) {
+        mEntity.setFrequency(frequency);
+    }
+
     public int getTimeout() {
         return mEntity.getTimeout();
     }
