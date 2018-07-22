@@ -28,6 +28,7 @@ public class HostListActivity extends AppCompatActivity {
 
         ListViewModel listViewModel = ViewModelProviders.of(this).get(ListViewModel.class);
         listViewModel.setRepository(Repository.getInstance());
+        listViewModel.setItemViewModelProvider(this::createItemViewModel);
 
         setContentView(R.layout.host_list_activity);
 
@@ -56,5 +57,9 @@ public class HostListActivity extends AppCompatActivity {
 
     private void setSelectedHost(HostEntity entity) {
         mSelectedHost = entity == null ? null : entity.getHost();
+    }
+
+    private ItemViewModel createItemViewModel(String key) {
+        return ViewModelProviders.of(this).get(key, ItemViewModel.class);
     }
 }

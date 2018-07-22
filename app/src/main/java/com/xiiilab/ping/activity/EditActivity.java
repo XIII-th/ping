@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.xiiilab.ping.R;
+import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.viewmodel.EditViewModel;
 
 public class EditActivity extends AppCompatActivity {
@@ -21,8 +22,10 @@ public class EditActivity extends AppCompatActivity {
         // initialise view model only first call of Activity.onCreate()
         mViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
         String hostForEdit = getIntent().getStringExtra(EDIT_ENTITY_ID);
-        if (!mViewModel.isInitialised())
+        if (!mViewModel.isInitialised()) {
+            mViewModel.setRepository(Repository.getInstance());
             mViewModel.load(hostForEdit);
+        }
         setContentView(R.layout.activity_edit);
 
         // setup toolbar controls and title
