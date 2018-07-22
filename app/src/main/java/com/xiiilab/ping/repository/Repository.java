@@ -36,6 +36,14 @@ public class Repository {
         return mInstance;
     }
 
+    public void insert(HostEntity entity) {
+        mTxExecutor.execute(() -> mDataBase.getHostDao().insert(entity));
+    }
+
+    public void delete(HostEntity entity) {
+        mTxExecutor.execute(() -> mDataBase.getHostDao().delete(entity));
+    }
+
     public LiveData<HostEntity> get(String host) {
         return mDataBase.getHostDao().get(host);
     }
@@ -44,7 +52,4 @@ public class Repository {
         return mDataBase.getHostDao().hostList();
     }
 
-    public void insert(HostEntity entity) {
-        mTxExecutor.execute(() -> mDataBase.getHostDao().insert(entity));
-    }
 }

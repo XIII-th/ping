@@ -60,6 +60,8 @@ public class HostListActivity extends AppCompatActivity {
     }
 
     private ItemViewModel createItemViewModel(String key) {
-        return ViewModelProviders.of(this).get(key, ItemViewModel.class);
+        ItemViewModel viewModel = ViewModelProviders.of(this).get(key, ItemViewModel.class);
+        viewModel.setRepository(Repository.getInstance());
+        return viewModel;
     }
 }

@@ -54,8 +54,25 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
     }
 
     private void refreshHostList(List<String> hostList) {
+        List<String> oldList = mHostList;
         mHostList = hostList;
-        // TODO: notify certain item
-        notifyDataSetChanged();
+        // notify new hosts
+        searchDiff(mHostList, oldList, this::notifyItemInserted);
+        // notify about removals
+        searchDiff(oldList, mHostList, this::notifyItemRemoved);
+    }
+
+    private void searchDiff(List<String> outer, List<String> inner, DiffConsumer diffConsumer) {
+        outer : for (int i = 0; i < outer.size(); i++) {
+            for (String newHost : inner)
+                if (outer.get(i).equals(newHost))
+                    continue outer;
+            diffConsumer.accept(i);
+        }
+    }
+
+    // TODO: 22.07.2018 replace to Consumer
+    private interface DiffConsumer {
+        void accept(int position);
     }
 }
