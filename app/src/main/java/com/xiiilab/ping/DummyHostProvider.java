@@ -7,6 +7,7 @@ import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import com.xiiilab.ping.persistance.HostEntity;
+import com.xiiilab.ping.repository.Repository;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -115,11 +116,11 @@ public class DummyHostProvider implements LifecycleObserver {
     }
 
     private void trackHost(String host) {
-        HostEntity entity = mRepository.get(host).getValue();
-        if (entity == null)
-            entity = new HostEntity(host, "Entity " + host, 0);
-        RequestSimulator simulator = new RequestSimulator(mRandom, mRepository, entity);
-        mRequestExecutor.execute(simulator);
+//        HostEntity entity = mRepository.get(host).getValue();
+//        if (entity == null)
+//            entity = new HostEntity(host, "Entity " + host, 0);
+//        RequestSimulator simulator = new RequestSimulator(mRandom, mRepository, entity);
+//        mRequestExecutor.execute(simulator);
     }
 
     private Thread createThread(@NonNull Runnable runnable) {

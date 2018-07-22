@@ -4,9 +4,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import com.xiiilab.ping.R;
-import com.xiiilab.ping.Repository;
+import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
 import com.xiiilab.ping.viewmodel.ListViewModel;
@@ -42,6 +43,9 @@ public class HostListActivity extends AppCompatActivity {
 
         if (savedInstanceState != null)
             listViewModel.select(Repository.getInstance().get(savedInstanceState.getString(SELECTED_HOST)));
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override

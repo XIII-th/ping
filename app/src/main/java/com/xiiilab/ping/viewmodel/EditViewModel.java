@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Patterns;
 import com.xiiilab.ping.R;
+import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.persistance.HostEntity;
 
 /**
@@ -93,9 +94,14 @@ public class EditViewModel extends AndroidViewModel {
         else
             mErrorTimeout.setValue(null);
 
-        return
+        boolean noError =
                 mErrorIp.getValue() == null &&
                 mErrorFrequency.getValue() == null &&
                 mErrorTimeout.getValue() == null;
+
+        if (noError)
+            Repository.getInstance().insert(mEntity);
+
+        return noError;
     }
 }

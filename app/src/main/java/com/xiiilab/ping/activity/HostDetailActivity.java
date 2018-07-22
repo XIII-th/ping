@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.xiiilab.ping.DummyHostProvider;
 import com.xiiilab.ping.R;
-import com.xiiilab.ping.Repository;
+import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
 
 public class HostDetailActivity extends AppCompatActivity {

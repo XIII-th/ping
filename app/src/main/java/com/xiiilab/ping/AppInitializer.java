@@ -1,6 +1,7 @@
 package com.xiiilab.ping;
 
 import android.app.Application;
+import com.xiiilab.ping.repository.Repository;
 
 /**
  * Created by Sergey on 19.07.2018

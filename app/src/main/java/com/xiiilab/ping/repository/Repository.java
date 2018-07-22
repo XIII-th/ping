@@ -1,4 +1,4 @@
-package com.xiiilab.ping;
+package com.xiiilab.ping.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
@@ -15,10 +15,12 @@ public class Repository {
 
     private static Repository mInstance;
 
-    private DataBase mDataBase;
+    private final TxExecutor mTxExecutor;
+    private final DataBase mDataBase;
 
     private Repository(Context appContext) {
-        mDataBase = Room.databaseBuilder(appContext, DataBase.class, "ping.db").allowMainThreadQueries().build();
+        mTxExecutor = new TxExecutor();
+        mDataBase = Room.databaseBuilder(appContext, DataBase.class, "ping.db").build();
     }
 
     public static void init(Context appContext) {
@@ -43,6 +45,6 @@ public class Repository {
     }
 
     public void insert(HostEntity entity) {
-        mDataBase.getHostDao().insert(entity);
+        mTxExecutor.execute(() -> mDataBase.getHostDao().insert(entity));
     }
 }

@@ -3,7 +3,7 @@ package com.xiiilab.ping.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
-import com.xiiilab.ping.Repository;
+import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.persistance.HostEntity;
 
 import java.util.HashMap;

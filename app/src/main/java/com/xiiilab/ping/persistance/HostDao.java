@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * Created by Sergey on 18.07.2018
+ * TODO: Avoid false positive notifications for observable queries
+ * https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1
  */
 @Dao
 public interface HostDao {
