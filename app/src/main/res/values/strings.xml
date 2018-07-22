@@ -9,6 +9,9 @@
 
     <string name="action_save">Save</string>
     <string name="host_edit">Edit host</string>
-    <string name="ping_timeout">Ping timeout</string>
-    <string name="ping_frequency">Ping frequency</string>
+    <string name="ping_timeout">Ping timeout (ms)</string>
+    <string name="ping_frequency">Ping frequency (ms)</string>
+    <string name="wrong_ip_address">Wrong ip address format</string>
+    <string name="frequency_must_be_positive">Frequency must be positive</string>
+    <string name="timeout_must_be_positive">Timeout must be positive</string>
 </resources>

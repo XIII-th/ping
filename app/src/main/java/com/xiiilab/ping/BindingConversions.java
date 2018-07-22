@@ -1,4 +1,4 @@
-package com.xiiilab;
+package com.xiiilab.ping;
 
 import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingAdapter;

@@ -1,18 +1,28 @@
 package com.xiiilab.ping.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Patterns;
+import com.xiiilab.ping.R;
 import com.xiiilab.ping.persistance.HostEntity;
 
 /**
  * Created by Sergey on 20.07.2018
  */
-public class EditViewModel extends ViewModel {
+public class EditViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<String> mErrorString = new MutableLiveData<>();
+    private final MutableLiveData<String> mErrorIp = new MutableLiveData<>();
+    private final MutableLiveData<String> mErrorFrequency = new MutableLiveData<>();
+    private final MutableLiveData<String> mErrorTimeout = new MutableLiveData<>();
     private HostEntity mEntity;
+
+    public EditViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public void load(@Nullable String hostId) {
         if (hostId == null)
@@ -23,16 +33,16 @@ public class EditViewModel extends ViewModel {
         return mEntity != null;
     }
 
-    public LiveData<String> getIpErrorString() {
-        return mErrorString;
-    }
-
     public String getIp() {
         return mEntity.getHost();
     }
 
     public void setIp(String ip) {
         mEntity.setHost(ip);
+    }
+
+    public LiveData<String> getIpError() {
+        return mErrorIp;
     }
 
     public String getTitle() {
@@ -51,6 +61,10 @@ public class EditViewModel extends ViewModel {
         mEntity.setFrequency(frequency);
     }
 
+    public LiveData<String> getFrequencyError() {
+        return mErrorFrequency;
+    }
+
     public int getTimeout() {
         return mEntity.getTimeout();
     }
@@ -59,7 +73,29 @@ public class EditViewModel extends ViewModel {
         mEntity.setTimeout(timeout);
     }
 
+    public LiveData<String> getTimeoutError() {
+        return mErrorTimeout;
+    }
+
     public boolean save() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!Patterns.IP_ADDRESS.matcher(mEntity.getHost()).find())
+            mErrorIp.setValue(getApplication().getString(R.string.wrong_ip_address));
+        else
+            mErrorIp.setValue(null);
+
+        if (mEntity.getFrequency() <= 0)
+            mErrorFrequency.setValue(getApplication().getString(R.string.frequency_must_be_positive));
+        else
+            mErrorFrequency.setValue(null);
+
+        if (mEntity.getTimeout() <= 0)
+            mErrorTimeout.setValue(getApplication().getString(R.string.timeout_must_be_positive));
+        else
+            mErrorTimeout.setValue(null);
+
+        return
+                mErrorIp.getValue() == null &&
+                mErrorFrequency.getValue() == null &&
+                mErrorTimeout.getValue() == null;
     }
 }
