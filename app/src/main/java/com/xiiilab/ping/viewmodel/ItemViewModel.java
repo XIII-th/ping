@@ -1,8 +1,11 @@
 package com.xiiilab.ping.viewmodel;
 
 import android.app.Application;
+import android.arch.core.util.Function;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Transformations;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -15,11 +18,19 @@ import com.xiiilab.ping.repository.Repository;
  */
 public class ItemViewModel extends AndroidViewModel {
 
-    private LiveData<HostEntity> mEntity;
+    private final MediatorLiveData<HostEntity> mEntity;
+    private LiveData<HostEntity> mActiveEntitySource;
+
+    private final LiveData<Integer> mPingValue;
+
     private Repository mRepository;
+    private Function<String, LiveData<Integer>> mPingValueProvider;
 
     public ItemViewModel(@NonNull Application application) {
         super(application);
+        mEntity = new MediatorLiveData<>();
+        mPingValue = Transformations.switchMap(mEntity, entity ->
+                entity == null ? null : mPingValueProvider.apply(entity.getHost()));
     }
 
     public void setRepository(Repository repository) {
@@ -27,12 +38,20 @@ public class ItemViewModel extends AndroidViewModel {
     }
 
     public void setEntity(LiveData<HostEntity> entityLiveData) {
-        // TODO: use mediator instead of direct assign
-        mEntity = entityLiveData;
+        mEntity.removeSource(mActiveEntitySource);
+        mEntity.addSource(mActiveEntitySource = entityLiveData, mEntity::setValue);
     }
 
     public LiveData<HostEntity> getEntity() {
         return mEntity;
+    }
+
+    public void setPingValueProvider(@NonNull Function<String, LiveData<Integer>> provider) {
+        mPingValueProvider = provider;
+    }
+
+    public LiveData<Integer> getPingValue() {
+        return mPingValue;
     }
 
     public void onEditClicked(View ignored) {

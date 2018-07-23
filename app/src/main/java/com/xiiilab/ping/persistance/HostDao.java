@@ -20,10 +20,10 @@ public interface HostDao {
     void delete(HostEntity entity);
 
     @Query("SELECT * FROM hosts WHERE host = :host")
-    LiveData<HostEntity> getAsync(String host);
+    LiveData<HostEntity> get(String host);
 
     @Query("SELECT * FROM hosts WHERE host = :host")
-    HostEntity get(String host);
+    HostEntity getSync(String host);
 
     @Query("SELECT host FROM hosts")
     LiveData<List<String>> hostList();

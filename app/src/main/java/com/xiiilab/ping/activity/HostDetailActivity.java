@@ -20,7 +20,7 @@ public class HostDetailActivity extends AppCompatActivity {
         PingRequestExecutor.getInstance().setTrackedHost(host);
 
         ItemViewModel viewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        viewModel.setEntity(Repository.getInstance().getAsync(host));
+        viewModel.setEntity(Repository.getInstance().get(host));
 
         setContentView(R.layout.host_detail_activity);
     }

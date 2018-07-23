@@ -1,14 +1,17 @@
 package com.xiiilab.ping.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import com.xiiilab.ping.R;
-import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.persistance.HostEntity;
+import com.xiiilab.ping.ping.PingRequestExecutor;
+import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
 import com.xiiilab.ping.viewmodel.ListViewModel;
 
@@ -36,14 +39,14 @@ public class HostListActivity extends AppCompatActivity {
             listViewModel.setDetailAvailable(false);
         else {
             listViewModel.setDetailAvailable(true);
-            ItemViewModel itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+            ItemViewModel itemViewModel = createItemViewModel(null);
             itemViewModel.setEntity(listViewModel.getSelected());
         }
 
         listViewModel.getSelected().observe(this, this::setSelectedHost);
 
         if (savedInstanceState != null)
-            listViewModel.select(Repository.getInstance().getAsync(savedInstanceState.getString(SELECTED_HOST)));
+            listViewModel.select(Repository.getInstance().get(savedInstanceState.getString(SELECTED_HOST)));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,9 +62,13 @@ public class HostListActivity extends AppCompatActivity {
         mSelectedHost = entity == null ? null : entity.getHost();
     }
 
-    private ItemViewModel createItemViewModel(String key) {
-        ItemViewModel viewModel = ViewModelProviders.of(this).get(key, ItemViewModel.class);
+    private ItemViewModel createItemViewModel(@Nullable String host) {
+        ViewModelProvider provider = ViewModelProviders.of(this);
+        ItemViewModel viewModel = host == null ?
+                provider.get(ItemViewModel.class) :
+                provider.get(host, ItemViewModel.class);
         viewModel.setRepository(Repository.getInstance());
+        viewModel.setPingValueProvider(PingRequestExecutor.getInstance()::getPingValue);
         return viewModel;
     }
 }

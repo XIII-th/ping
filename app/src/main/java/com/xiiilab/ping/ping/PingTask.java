@@ -16,6 +16,7 @@ class PingTask implements Runnable {
     private final String mHost;
     private final MutableLiveData<Integer> mValue;
     private volatile HostEntity mEntity;
+    private volatile boolean mInitialisationCompleted;
     private volatile boolean mWork;
 
     public PingTask(Repository repository, String host, MutableLiveData<Integer> ping) {
@@ -30,18 +31,32 @@ class PingTask implements Runnable {
     }
 
     public HostEntity getEntity() {
+        synchronized (this) {
+            if (!mInitialisationCompleted)
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    Log.d(TAG, "Unable to wait task initialisation", e);
+                }
+        }
         return mEntity;
     }
 
     @Override
     public void run() {
-        mEntity = mRepository.get(mHost);
+        mEntity = mRepository.getSync(mHost);
+
+        synchronized (this) {
+            mInitialisationCompleted = true;
+            this.notifyAll();
+        }
+
         Log.d(TAG, "Starting ping loop for host " + mEntity);
         mWork = mEntity != null;
         int counter = 0;
         while (mWork) {
             // TODO: 22.07.2018 make request
-            mValue.postValue(counter ++);
+            mValue.postValue(counter++);
             Log.d(TAG, mEntity + " " + counter);
             try {
                 Thread.sleep(mEntity.getFrequency());

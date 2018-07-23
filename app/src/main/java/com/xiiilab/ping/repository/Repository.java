@@ -44,12 +44,12 @@ public class Repository {
         mTxExecutor.execute(() -> mDataBase.getHostDao().delete(entity));
     }
 
-    public LiveData<HostEntity> getAsync(String host) {
-        return mDataBase.getHostDao().getAsync(host);
+    public LiveData<HostEntity> get(String host) {
+        return mDataBase.getHostDao().get(host);
     }
 
-    public HostEntity get(String host) {
-        return mDataBase.getHostDao().get(host);
+    public HostEntity getSync(String host) {
+        return mDataBase.getHostDao().getSync(host);
     }
 
     public LiveData<List<String>> hostList() {

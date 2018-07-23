@@ -30,7 +30,7 @@ class RefreshTask implements Runnable {
             Log.d(TAG, "Refresh task started");
             for (Map.Entry<String, PingTask> entry : mActive.entrySet()) {
                 PingTask task = entry.getValue();
-                HostEntity fresh = mRepository.get(entry.getKey());
+                HostEntity fresh = mRepository.getSync(entry.getKey());
                 if (!fresh.equals(task.getEntity())) {
                     // stop task because of it can have long sleep period or very high ping
                     task.stop();
