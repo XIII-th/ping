@@ -43,7 +43,7 @@ public class HostListActivity extends AppCompatActivity {
         listViewModel.getSelected().observe(this, this::setSelectedHost);
 
         if (savedInstanceState != null)
-            listViewModel.select(Repository.getInstance().get(savedInstanceState.getString(SELECTED_HOST)));
+            listViewModel.select(Repository.getInstance().getAsync(savedInstanceState.getString(SELECTED_HOST)));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

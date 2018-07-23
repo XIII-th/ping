@@ -1,6 +1,7 @@
 package com.xiiilab.ping;
 
 import android.app.Application;
+import com.xiiilab.ping.ping.PingRequestExecutor;
 import com.xiiilab.ping.repository.Repository;
 
 /**
@@ -12,7 +13,7 @@ public class AppInitializer extends Application {
     public void onCreate() {
         super.onCreate();
         Repository.init(this);
-        DummyHostProvider.init(Repository.getInstance());
+        PingRequestExecutor.init(Repository.getInstance());
 
 //        HostEntity localhost = new HostEntity("127.0.0.1", "localhost", 0);
 //        Repository.getInstance().insert(localhost);

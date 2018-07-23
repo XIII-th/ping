@@ -3,7 +3,7 @@ package com.xiiilab.ping.activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import com.xiiilab.ping.DummyHostProvider;
+import com.xiiilab.ping.ping.PingRequestExecutor;
 import com.xiiilab.ping.R;
 import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
@@ -17,10 +17,10 @@ public class HostDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         String host = getSelectedHost();
-        DummyHostProvider.getInstance().setTrackedHost(host);
+        PingRequestExecutor.getInstance().setTrackedHost(host);
 
         ItemViewModel viewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        viewModel.setEntity(Repository.getInstance().get(host));
+        viewModel.setEntity(Repository.getInstance().getAsync(host));
 
         setContentView(R.layout.host_detail_activity);
     }
@@ -28,7 +28,7 @@ public class HostDetailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DummyHostProvider.getInstance().resetTracking();
+        PingRequestExecutor.getInstance().resetTracking();
     }
 
     private String getSelectedHost() {

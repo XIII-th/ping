@@ -39,7 +39,7 @@ public class EditViewModel extends AndroidViewModel {
         else if (mRepository == null)
             throw new IllegalStateException("Unable to load data from null repository");
         else
-            mEntity.addSource(mRepository.get(hostId), this::setupEntity);
+            mEntity.addSource(mRepository.getAsync(hostId), this::setupEntity);
     }
 
     public boolean isInitialised() {

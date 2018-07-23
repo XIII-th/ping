@@ -45,7 +45,7 @@ public class ListViewModel extends ViewModel {
                 throw new IllegalStateException("Item view model provider is not specified");
             mItemViewModels.put(host, itemViewModel = mItemViewModelProvider.apply(host));
         }
-        itemViewModel.setEntity(mRepository.get(host));
+        itemViewModel.setEntity(mRepository.getAsync(host));
         return itemViewModel;
     }
 

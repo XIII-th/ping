@@ -7,11 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import com.xiiilab.ping.DiffList;
 import com.xiiilab.ping.R;
 import com.xiiilab.ping.databinding.ListItemBinding;
 import com.xiiilab.ping.viewmodel.ListViewModel;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,12 +22,12 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
     private final LifecycleOwner mLifecycleOwner;
     private final ListViewModel mListViewModel;
     private final OpenHostListener mListener;
-    private List<String> mHostList;
+    private final DiffList<String> mHostList;
 
     public RecyclerViewAdapter(Fragment fragment, ListViewModel listViewModel) {
         mLifecycleOwner = fragment;
         mListViewModel = listViewModel;
-        mHostList = Collections.emptyList();
+        mHostList = new DiffList<>();
         mListViewModel.hostList().observe(mLifecycleOwner, this::refreshHostList);
         mListener = new OpenHostListener(fragment.getContext(), mListViewModel);
     }
@@ -54,25 +54,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
     }
 
     private void refreshHostList(List<String> hostList) {
-        List<String> oldList = mHostList;
-        mHostList = hostList;
-        // notify new hosts
-        searchDiff(mHostList, oldList, this::notifyItemInserted);
-        // notify about removals
-        searchDiff(oldList, mHostList, this::notifyItemRemoved);
-    }
-
-    private void searchDiff(List<String> outer, List<String> inner, DiffConsumer diffConsumer) {
-        outer : for (int i = 0; i < outer.size(); i++) {
-            for (String newHost : inner)
-                if (outer.get(i).equals(newHost))
-                    continue outer;
-            diffConsumer.accept(i);
-        }
-    }
-
-    // TODO: 22.07.2018 replace to Consumer
-    private interface DiffConsumer {
-        void accept(int position);
+        mHostList.
+                beginMigration(hostList).
+                onInsert((position, data) -> notifyItemInserted(position)).
+                onRemove((position, data) -> notifyItemRemoved(position)).
+                completeMigration();
     }
 }
