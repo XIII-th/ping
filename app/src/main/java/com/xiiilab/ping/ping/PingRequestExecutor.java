@@ -63,14 +63,6 @@ public class PingRequestExecutor implements LifecycleObserver {
         }
     }
 
-    public void setTrackedHost(String host) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    public void resetTracking() {
-        setTrackedHost(null);
-    }
-
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void enable() {
         synchronized (mActivePing) {
