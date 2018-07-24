@@ -3,6 +3,7 @@ package com.xiiilab.ping.ping;
 import android.arch.lifecycle.*;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import com.stealthcopter.networktools.ping.PingResult;
 import com.xiiilab.ping.DiffList;
 import com.xiiilab.ping.repository.Repository;
 
@@ -25,8 +26,8 @@ public class PingRequestExecutor implements LifecycleObserver {
     private final Repository mRepository;
 
     private final DiffList<String> mHosts;
-    private final HashMap<String, PingTask> mActivePing;
-    private final HashMap<String, MutableLiveData<Integer>> mPingValue;
+    private final HashMap<String, PingTaskStarter> mActivePing;
+    private final HashMap<String, MutableLiveData<PingResult>> mPingValue;
 
     private PingRequestExecutor(Repository repository) {
         mRepository = repository;
@@ -56,7 +57,7 @@ public class PingRequestExecutor implements LifecycleObserver {
     }
 
     @Nullable
-    public LiveData<Integer> getPingValue(@NonNull String host) {
+    public LiveData<PingResult> getPingValue(@NonNull String host) {
         synchronized (mPingValue) {
             return mPingValue.get(host);
         }
@@ -73,7 +74,7 @@ public class PingRequestExecutor implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void enable() {
         synchronized (mActivePing) {
-            for (PingTask request : mActivePing.values())
+            for (PingTaskStarter request : mActivePing.values())
                 mRequestExecutor.execute(request);
         }
     }
@@ -81,7 +82,7 @@ public class PingRequestExecutor implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void disable() {
         synchronized (mActivePing) {
-            for (PingTask request : mActivePing.values())
+            for (PingTaskStarter request : mActivePing.values())
                 request.stop();
         }
     }
@@ -96,17 +97,17 @@ public class PingRequestExecutor implements LifecycleObserver {
     }
 
     private void startNewPingTask(int ignored, String host) {
-        PingTask request;
+        PingTaskStarter request;
         synchronized (mActivePing) {
             if (mActivePing.containsKey(host))
                 throw new IllegalStateException("Ping task for host '" + host + "' already present");
-            MutableLiveData<Integer> pingValue = new MutableLiveData<>();
+            MutableLiveData<PingResult> pingValue = new MutableLiveData<>();
 
             synchronized (mPingValue) {
                 mPingValue.put(host, pingValue);
             }
 
-            request = new PingTask(mRepository, host, pingValue);
+            request = new PingTaskStarter(mRepository, host, pingValue);
             mActivePing.put(host, request);
         }
         mRequestExecutor.execute(request);
@@ -118,7 +119,7 @@ public class PingRequestExecutor implements LifecycleObserver {
         }
 
         synchronized (mActivePing) {
-            PingTask request = mActivePing.remove(host);
+            PingTaskStarter request = mActivePing.remove(host);
             if (request != null)
                 request.stop();
         }

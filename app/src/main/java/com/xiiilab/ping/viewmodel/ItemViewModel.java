@@ -9,6 +9,7 @@ import android.arch.lifecycle.Transformations;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
+import com.stealthcopter.networktools.ping.PingResult;
 import com.xiiilab.ping.activity.EditActivity;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.repository.Repository;
@@ -21,10 +22,10 @@ public class ItemViewModel extends AndroidViewModel {
     private final MediatorLiveData<HostEntity> mEntity;
     private LiveData<HostEntity> mActiveEntitySource;
 
-    private final LiveData<Integer> mPingValue;
+    private final LiveData<PingResult> mPingValue;
 
     private Repository mRepository;
-    private Function<String, LiveData<Integer>> mPingValueProvider;
+    private Function<String, LiveData<PingResult>> mPingValueProvider;
 
     public ItemViewModel(@NonNull Application application) {
         super(application);
@@ -46,11 +47,11 @@ public class ItemViewModel extends AndroidViewModel {
         return mEntity;
     }
 
-    public void setPingValueProvider(@NonNull Function<String, LiveData<Integer>> provider) {
+    public void setPingValueProvider(@NonNull Function<String, LiveData<PingResult>> provider) {
         mPingValueProvider = provider;
     }
 
-    public LiveData<Integer> getPingValue() {
+    public LiveData<PingResult> getPingValue() {
         return mPingValue;
     }
 
