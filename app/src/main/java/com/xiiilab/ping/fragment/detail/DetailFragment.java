@@ -8,19 +8,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.xiiilab.ping.R;
 import com.xiiilab.ping.databinding.HostDetailFragmentBinding;
-import com.xiiilab.ping.viewmodel.ItemViewModel;
+import com.xiiilab.ping.viewmodel.DetailViewModel;
 
 public class DetailFragment extends Fragment {
 
-    private ItemViewModel mItemViewModel;
+    private DetailViewModel mDetailViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() == null)
             throw new IllegalStateException("Unable to get activity");
-        mItemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
+        mDetailViewModel = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
     }
 
     @Override
@@ -28,7 +29,15 @@ public class DetailFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         HostDetailFragmentBinding binding = HostDetailFragmentBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        binding.setItemVm(mItemViewModel);
+        binding.setVm(mDetailViewModel);
+        mDetailViewModel.getLastEntry().observe(this, ignored -> {
+            // this subscription required to call chart.invalidate()
+            binding.pingChart.getLineData().notifyDataChanged();
+            binding.pingChart.notifyDataSetChanged();
+            binding.pingChart.invalidate();
+        });
+        binding.pingChart.getDescription().setText(
+                getString(R.string.chart_values_count, getResources().getInteger(R.integer.chart_entry_limit)));
         return binding.getRoot();
     }
 }

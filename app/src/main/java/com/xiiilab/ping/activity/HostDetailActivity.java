@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.xiiilab.ping.R;
 import com.xiiilab.ping.ping.PingRequestExecutor;
 import com.xiiilab.ping.repository.Repository;
-import com.xiiilab.ping.viewmodel.ItemViewModel;
+import com.xiiilab.ping.viewmodel.DetailViewModel;
 
 public class HostDetailActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class HostDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         String host = getSelectedHost();
-        ItemViewModel viewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+        DetailViewModel viewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
         viewModel.setPingValueProvider(PingRequestExecutor.getInstance()::getPingValue);
         viewModel.setEntity(Repository.getInstance().get(host));
 

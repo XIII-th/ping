@@ -43,12 +43,12 @@ public class ItemViewModel extends AndroidViewModel {
         mEntity.addSource(mActiveEntitySource = entityLiveData, mEntity::setValue);
     }
 
-    public LiveData<HostEntity> getEntity() {
-        return mEntity;
-    }
-
     public void setPingValueProvider(@NonNull Function<String, LiveData<PingResult>> provider) {
         mPingValueProvider = provider;
+    }
+
+    public LiveData<HostEntity> getEntity() {
+        return mEntity;
     }
 
     public LiveData<PingResult> getPingValue() {

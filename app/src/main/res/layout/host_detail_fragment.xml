@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="itemVm" type="com.xiiilab.ping.viewmodel.ItemViewModel"/>
+
+        <variable
+                name="vm"
+                type="com.xiiilab.ping.viewmodel.DetailViewModel"/>
     </data>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/host_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@{vm.entity.title}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{itemVm.entity.title}"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{itemVm.pingValue.timeTaken}"/>
-    </LinearLayout>
+                android:layout_margin="@dimen/text_margin"
+                android:text="@{vm.pingValue.timeTaken}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/host_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/ping_chart"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/text_margin"
+                app:data="@{vm.chartData}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/host_title"/>
+
+    </android.support.constraint.ConstraintLayout>
 </layout>

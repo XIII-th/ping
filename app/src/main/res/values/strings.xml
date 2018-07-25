@@ -14,4 +14,7 @@
     <string name="wrong_ip_address">Wrong ip address format</string>
     <string name="frequency_must_be_positive">Frequency must be positive</string>
     <string name="timeout_must_be_positive">Timeout must be positive</string>
+
+    <string name="chart_legend">Ping (ms)</string>
+    <string name="chart_values_count">Last %d values</string>
 </resources>

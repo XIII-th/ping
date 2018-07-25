@@ -3,4 +3,5 @@
     <integer name="timeout_number_length">5</integer>
     <integer name="ip_v4_max_length">15</integer>
     <integer name="host_title_max_length">64</integer>
+    <integer name="chart_entry_limit">30</integer>
 </resources>
