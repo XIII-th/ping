@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import com.stealthcopter.networktools.ping.PingResult;
+import com.xiiilab.ping.BindingConversions;
+import com.xiiilab.ping.R;
 import com.xiiilab.ping.activity.EditActivity;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.repository.Repository;
@@ -47,12 +49,28 @@ public class ItemViewModel extends AndroidViewModel {
         mPingValueProvider = provider;
     }
 
-    public LiveData<HostEntity> getEntity() {
-        return mEntity;
+    public LiveData<String> getTitle() {
+        return Transformations.map(getEntity(), entity ->
+                entity.getTitle() == null ? entity.getHost() : entity.getTitle());
     }
 
-    public LiveData<PingResult> getPingValue() {
-        return mPingValue;
+    public LiveData<Boolean> isTitlePresent() {
+        return Transformations.map(getEntity(), entity ->
+                entity.getTitle() != null);
+    }
+
+    public LiveData<String> getHost() {
+        return Transformations.map(getEntity(), HostEntity::getHost);
+    }
+
+    public LiveData<String> getCurrentPing() {
+        return Transformations.map(mPingValue, ping ->
+                getApplication().getString(R.string.current_ping_format,
+                    BindingConversions.DECIMAL_FORMAT.format(ping.timeTaken)));
+    }
+
+    public LiveData<String> getErrorString() {
+        return Transformations.map(mPingValue, this::getErrorString);
     }
 
     public void onEditClicked(View ignored) {
@@ -63,5 +81,26 @@ public class ItemViewModel extends AndroidViewModel {
 
     public void onDeleteClicked(View ignored) {
         mRepository.delete(mEntity.getValue());
+    }
+
+    protected LiveData<HostEntity> getEntity() {
+        return mEntity;
+    }
+
+    protected LiveData<PingResult> getPingValue() {
+        return mPingValue;
+    }
+
+    private String getErrorString(PingResult pingResult) {
+        if (pingResult.error == null)
+            return null;
+        switch (pingResult.error) {
+            case "failed, exit = 1":
+                return getApplication().getString(R.string.ping_command_failed);
+            case "error, exit = 2":
+                return getApplication().getString(R.string.unable_to_execute_ping_command);
+            default:
+                return getApplication().getString(R.string.unexpected_ping_error);
+        }
     }
 }

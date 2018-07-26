@@ -14,8 +14,5 @@ public class AppInitializer extends Application {
         super.onCreate();
         Repository.init(this);
         PingRequestExecutor.init(Repository.getInstance());
-
-//        HostEntity localhost = new HostEntity("127.0.0.1", "localhost", 0);
-//        Repository.getInstance().insert(localhost);
     }
 }

@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
                 name="vm"
                 type="com.xiiilab.ping.viewmodel.DetailViewModel"/>
@@ -19,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:text="@{vm.entity.title}"
+                android:text="@{vm.title}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
@@ -27,11 +29,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:text="@{vm.pingValue.timeTaken}"
+                android:text="@{vm.currentPing}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/host_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"/>
+
+        <TextView
+                android:id="@+id/host"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@{vm.host}"
+                android:visibility="@{vm.titlePresent ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/host_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
         <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/ping_chart"
@@ -42,7 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/host_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/host"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

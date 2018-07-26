@@ -15,6 +15,11 @@
     <string name="frequency_must_be_positive">Frequency must be positive</string>
     <string name="timeout_must_be_positive">Timeout must be positive</string>
 
+    <string name="ping_command_failed">Ping command failed</string>
+    <string name="unable_to_execute_ping_command">Unable to execute ping command</string>
+    <string name="unexpected_ping_error">Unexpected ping error</string>
+    <string name="current_ping_format">%s ms</string>
+
     <string name="chart_legend">Ping (ms)</string>
     <string name="chart_values_count">Last %d values</string>
 </resources>

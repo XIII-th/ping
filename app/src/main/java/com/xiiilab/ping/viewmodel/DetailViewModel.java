@@ -24,6 +24,8 @@ public class DetailViewModel extends ItemViewModel {
     private final LineDataSet mDataSet;
     private final int mEntryLimit;
 
+    private String mCurrentHost;
+
     public DetailViewModel(@NonNull Application application) {
         super(application);
 
@@ -47,7 +49,11 @@ public class DetailViewModel extends ItemViewModel {
         return new LineData(mDataSet);
     }
 
-    private void notifyDataSourceChanged(HostEntity ignored) {
+    private void notifyDataSourceChanged(HostEntity hostEntity) {
+        if (hostEntity.getHost().equals(mCurrentHost))
+            return;
+        else
+            mCurrentHost = hostEntity.getHost();
         // cleanup chart data
         mDataSet.clear();
         Entry entry = new Entry();

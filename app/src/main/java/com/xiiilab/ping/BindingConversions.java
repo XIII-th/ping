@@ -12,7 +12,7 @@ import java.util.Locale;
  */
 public class BindingConversions {
 
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.######");
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.######");
 
     @InverseBindingAdapter(attribute = "android:text")
     public static int getInt(TextView view) {
@@ -38,7 +38,7 @@ public class BindingConversions {
     }
 
     @BindingAdapter("android:text")
-    public static void setInt(TextView view, float number) {
+    public static void setFloat(TextView view, float number) {
         view.setText(DECIMAL_FORMAT.format(number));
     }
 }
