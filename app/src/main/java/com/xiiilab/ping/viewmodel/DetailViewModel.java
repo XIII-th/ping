@@ -2,6 +2,7 @@ package com.xiiilab.ping.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,14 +20,15 @@ import java.util.ArrayList;
  */
 public class DetailViewModel extends ItemViewModel {
 
-    private final LiveData<Entry> mLastEntry;
+    private final MediatorLiveData<Entry> mLastEntry;
     private final LineDataSet mDataSet;
     private final int mEntryLimit;
 
     public DetailViewModel(@NonNull Application application) {
         super(application);
 
-        mLastEntry = Transformations.map(getPingValue(), this::addChartEntry);
+        mLastEntry = (MediatorLiveData<Entry>) Transformations.map(getPingValue(), this::addChartEntry);
+        mLastEntry.addSource(getEntity(), this::notifyDataSourceChanged);
 
         mEntryLimit = application.getResources().getInteger(R.integer.chart_entry_limit);
         mDataSet = new LineDataSet(new ArrayList<>(), application.getString(R.string.chart_legend));
@@ -43,6 +45,16 @@ public class DetailViewModel extends ItemViewModel {
 
     public LineData getChartData() {
         return new LineData(mDataSet);
+    }
+
+    private void notifyDataSourceChanged(HostEntity ignored) {
+        // cleanup chart data
+        mDataSet.clear();
+        Entry entry = new Entry();
+        mDataSet.addEntry(entry);
+        mDataSet.notifyDataSetChanged();
+        // trigger LineChart to redraw
+        mLastEntry.setValue(entry);
     }
 
     private Entry addChartEntry(@Nullable PingResult pingResult) {
