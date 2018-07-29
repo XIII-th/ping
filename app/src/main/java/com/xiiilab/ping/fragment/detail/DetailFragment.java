@@ -30,12 +30,10 @@ public class DetailFragment extends Fragment {
         HostDetailFragmentBinding binding = HostDetailFragmentBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.setVm(mDetailViewModel);
-        mDetailViewModel.getLastEntry().observe(this, ignored -> {
-            // this subscription required to call chart.invalidate()
-            binding.pingChart.getLineData().notifyDataChanged();
-            binding.pingChart.notifyDataSetChanged();
-            binding.pingChart.invalidate();
-        });
+
+        // this subscription required to call chart.invalidate()
+        mDetailViewModel.getLastEntry().observe(this, new ChartUpdater(binding.pingChart));
+
         binding.pingChart.getDescription().setText(
                 getString(R.string.chart_values_count, getResources().getInteger(R.integer.chart_entry_limit)));
         return binding.getRoot();
