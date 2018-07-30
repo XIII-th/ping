@@ -4,4 +4,5 @@
     <integer name="ip_v4_max_length">15</integer>
     <integer name="host_title_max_length">64</integer>
     <integer name="chart_entry_limit">30</integer>
+    <integer name="max_lines">3</integer>
 </resources>

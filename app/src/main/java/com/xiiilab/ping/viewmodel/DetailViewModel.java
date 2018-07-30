@@ -49,8 +49,10 @@ public class DetailViewModel extends ItemViewModel {
         return new LineData(mDataSet);
     }
 
-    private void notifyDataSourceChanged(HostEntity hostEntity) {
-        if (hostEntity.getHost().equals(mCurrentHost))
+    private void notifyDataSourceChanged(@Nullable HostEntity hostEntity) {
+        if (hostEntity == null)
+            mCurrentHost = null;
+        else if (hostEntity.getHost().equals(mCurrentHost))
             return;
         else
             mCurrentHost = hostEntity.getHost();

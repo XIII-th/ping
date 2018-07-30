@@ -33,11 +33,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
                     android:ellipsize="end"
+                    android:singleLine="true"
                     android:text="@{itemVm.title}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintEnd_toStartOf="@+id/counter"/>
 
             <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/counter"
