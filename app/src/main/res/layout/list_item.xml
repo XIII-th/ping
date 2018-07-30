@@ -14,10 +14,6 @@
         <variable
                 name="itemVm"
                 type="com.xiiilab.ping.viewmodel.ItemViewModel"/>
-
-        <variable
-                name="listener"
-                type="com.xiiilab.ping.fragment.list.OpenHostListener"/>
     </data>
 
     <android.support.v7.widget.CardView
@@ -25,7 +21,7 @@
             android:layout_width="match_parent"
             android:theme="@style/Base.CardView"
             android:layout_margin="@dimen/cardview_margin"
-            android:onClickListener="@{() -> listener.onClick(itemVm.host)}">
+            android:onClickListener="@{() -> listVm.onSelectHost(itemVm)}">
 
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

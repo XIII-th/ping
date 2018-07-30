@@ -60,6 +60,10 @@ public class ListViewModel extends ViewModel {
         this.mDetailAvailable = mDetailAvailable;
     }
 
+    public void onSelectHost(ItemViewModel itemViewModel) {
+        select(itemViewModel.getEntity());
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();

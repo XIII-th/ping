@@ -21,7 +21,6 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
 
     private final LifecycleOwner mLifecycleOwner;
     private final ListViewModel mListViewModel;
-    private final OpenHostListener mListener;
     private final DiffList<String> mHostList;
 
     public RecyclerViewAdapter(Fragment fragment, ListViewModel listViewModel) {
@@ -29,7 +28,6 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
         mListViewModel = listViewModel;
         mHostList = new DiffList<>();
         mListViewModel.hostList().observe(mLifecycleOwner, this::refreshHostList);
-        mListener = new OpenHostListener(fragment.getContext(), mListViewModel);
     }
 
     @NonNull
@@ -45,7 +43,6 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<BindingViewHolder> {
     public void onBindViewHolder(@NonNull BindingViewHolder holder, int position) {
         holder.binding.setListVm(mListViewModel);
         holder.binding.setItemVm(mListViewModel.getItem(mHostList.get(position)));
-        holder.binding.setListener(mListener);
     }
 
     @Override
