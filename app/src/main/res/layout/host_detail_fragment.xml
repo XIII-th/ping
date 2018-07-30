@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
                 android:text="@{vm.host}"
-                android:visibility="@{vm.titlePresent ? View.VISIBLE : View.INVISIBLE}"
+                android:visibility="@{safeUnbox(vm.titlePresent) ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/host_title"
                 app:layout_constraintEnd_toEndOf="parent"

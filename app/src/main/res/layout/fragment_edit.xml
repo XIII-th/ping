@@ -28,7 +28,7 @@
                     android:inputType="textShortMessage"
                     android:maxLength="@integer/ip_v4_max_length"
                     android:text="@={vm.entity.host}"
-                    android:enabled="@{vm.newEntity}"/>
+                    android:enabled="@{safeUnbox(vm.newEntity)}"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

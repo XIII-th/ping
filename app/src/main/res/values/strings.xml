@@ -1,12 +1,9 @@
 <resources>
-    <string name="app_name">Ping</string>
-    <string name="title_activity_detail">DetailActivity</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="add">Add</string>
+    <string name="app_name">Interactive ping</string>
+    <string name="title_activity_detail">Details</string>
     <string name="add_new_host">Add new host</string>
     <string name="ip_address_hint">IP address</string>
     <string name="host_title">Title</string>
-
     <string name="action_save">Save</string>
     <string name="host_edit">Edit host</string>
     <string name="ping_timeout">Ping timeout (ms)</string>
@@ -14,12 +11,10 @@
     <string name="wrong_ip_address">Wrong ip address format</string>
     <string name="frequency_must_be_positive">Frequency must be positive</string>
     <string name="timeout_must_be_positive">Timeout must be positive</string>
-
     <string name="ping_command_failed">Ping command failed</string>
     <string name="unable_to_execute_ping_command">Unable to execute ping command</string>
     <string name="unexpected_ping_error">Unexpected ping error</string>
-    <string name="current_ping_format">%s ms</string>
-
+    <string name="current_ping_format" formatted="false">%s ms</string>
     <string name="chart_legend">Ping (ms)</string>
-    <string name="chart_values_count">Last %d values</string>
+    <string name="chart_values_count" formatted="true">Last %d values</string>
 </resources>

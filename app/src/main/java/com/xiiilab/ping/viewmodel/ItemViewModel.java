@@ -8,6 +8,7 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.Transformations;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import com.stealthcopter.networktools.ping.PingResult;
 import com.xiiilab.ping.BindingConversions;
@@ -50,17 +51,17 @@ public class ItemViewModel extends AndroidViewModel {
     }
 
     public LiveData<String> getTitle() {
-        return Transformations.map(getEntity(), entity ->
-                entity.getTitle() == null ? entity.getHost() : entity.getTitle());
+        return Transformations.map(getEntity(), this::getTitle);
     }
 
     public LiveData<Boolean> isTitlePresent() {
         return Transformations.map(getEntity(), entity ->
-                entity.getTitle() != null);
+                entity != null && entity.getTitle() != null);
     }
 
     public LiveData<String> getHost() {
-        return Transformations.map(getEntity(), HostEntity::getHost);
+        return Transformations.map(getEntity(), entity ->
+                entity == null ? null : entity.getHost());
     }
 
     public LiveData<String> getCurrentPing() {
@@ -102,5 +103,12 @@ public class ItemViewModel extends AndroidViewModel {
             default:
                 return getApplication().getString(R.string.unexpected_ping_error);
         }
+    }
+
+    @Nullable
+    private String getTitle(@Nullable HostEntity entity) {
+        if (entity == null)
+            return null;
+        return entity.getTitle() == null ? entity.getHost() : entity.getTitle();
     }
 }
