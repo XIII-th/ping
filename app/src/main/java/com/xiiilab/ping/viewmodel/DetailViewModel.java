@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class DetailViewModel extends ItemViewModel {
 
     private final MediatorLiveData<Entry> mLastEntry;
+    private final LiveData<Boolean> mEntitySelected;
     private final LineDataSet mDataSet;
     private final int mEntryLimit;
 
@@ -28,6 +29,8 @@ public class DetailViewModel extends ItemViewModel {
 
     public DetailViewModel(@NonNull Application application) {
         super(application);
+
+        mEntitySelected = Transformations.map(getEntity(), entity -> entity != null);
 
         mLastEntry = (MediatorLiveData<Entry>) Transformations.map(getPingValue(), this::addChartEntry);
         mLastEntry.addSource(getEntity(), this::notifyDataSourceChanged);
@@ -39,6 +42,10 @@ public class DetailViewModel extends ItemViewModel {
         LineData lineData = new LineData(mDataSet);
         mDataSet.setDrawCircleHole(false);
         lineData.setDrawValues(false);
+    }
+
+    public LiveData<Boolean> isEntitySelected() {
+        return mEntitySelected;
     }
 
     public LiveData<Entry> getLastEntry() {

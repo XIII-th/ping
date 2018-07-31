@@ -11,54 +11,69 @@
                 type="com.xiiilab.ping.viewmodel.DetailViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{safeUnbox(detailVm.entitySelected) ? View.VISIBLE : View.GONE}"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/host_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@{detailVm.title}"
+                    android:maxLines="@integer/max_lines"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/counter"/>
+
+            <TextView
+                    android:id="@+id/counter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@{detailVm.currentPing}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"/>
+
+            <TextView
+                    android:id="@+id/host"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@{detailVm.host}"
+                    android:visibility="@{safeUnbox(detailVm.titlePresent) ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toBottomOf="@+id/host_title"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/ping_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/text_margin"
+                    app:data="@{detailVm.chartData}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/host"/>
+
+        </android.support.constraint.ConstraintLayout>
 
         <TextView
-                android:id="@+id/host_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@{detailVm.title}"
-                android:maxLines="@integer/max_lines"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/counter"/>
-
-        <TextView
-                android:id="@+id/counter"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@{detailVm.currentPing}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"/>
-
-        <TextView
-                android:id="@+id/host"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@{detailVm.host}"
-                android:visibility="@{safeUnbox(detailVm.titlePresent) ? View.VISIBLE : View.INVISIBLE}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toBottomOf="@+id/host_title"/>
-
-        <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/ping_chart"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="@dimen/text_margin"
-                app:data="@{detailVm.chartData}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/host"/>
-
-    </android.support.constraint.ConstraintLayout>
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="@{safeUnbox(detailVm.entitySelected) ? View.GONE : View.VISIBLE}"
+                android:text="@string/select_host"
+                android:drawableTop="@drawable/chart_line"/>
+    </RelativeLayout>
 </layout>
