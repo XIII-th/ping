@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Interactive ping</string>
+    <string name="app_name">iPing</string>
     <string name="title_activity_detail">Details</string>
     <string name="add_new_host">Add new host</string>
     <string name="ip_address_hint">IP address</string>
