@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class ListViewModel extends ViewModel {
 
+    private final MediatorLiveData<List<String>> mHostList = new MediatorLiveData<>();
+    private final MediatorLiveData<Boolean> mEmptyList = new MediatorLiveData<>();
     private final MediatorLiveData<HostEntity> mSelected = new MediatorLiveData<>();
     private final HashMap<String, ItemViewModel> mItemViewModels = new HashMap<>();
     private LiveData<HostEntity> mSelectedSource;
@@ -22,8 +24,19 @@ public class ListViewModel extends ViewModel {
     private Function<String, ItemViewModel> mItemViewModelProvider;
     private boolean mDetailAvailable;
 
+    public ListViewModel() {
+        mEmptyList.addSource(mHostList, list -> mEmptyList.setValue(list == null || list.isEmpty()));
+    }
+
+    public boolean isInitialised() {
+        return mRepository != null && mItemViewModelProvider != null;
+    }
+
     public void setRepository(Repository repository) {
+        if (mRepository != null)
+            throw new IllegalStateException("Unable to set repository twice");
         mRepository = repository;
+        mHostList.addSource(mRepository.hostList(), mHostList::setValue);
     }
 
     public void setItemViewModelProvider(Function<String, ItemViewModel> provider) {
@@ -52,15 +65,19 @@ public class ListViewModel extends ViewModel {
     }
 
     public LiveData<List<String>> hostList() {
-        return mRepository.hostList();
+        return mHostList;
+    }
+
+    public LiveData<Boolean> isEmpty() {
+        return mEmptyList;
     }
 
     public boolean isDetailAvailable() {
         return mDetailAvailable;
     }
 
-    public void setDetailAvailable(boolean mDetailAvailable) {
-        this.mDetailAvailable = mDetailAvailable;
+    public void setDetailAvailable(boolean detailAvailable) {
+        mDetailAvailable = detailAvailable;
     }
 
     public void onSelectHost(ItemViewModel itemViewModel) {

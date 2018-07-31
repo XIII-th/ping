@@ -32,7 +32,7 @@ public class EditFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentEditBinding binding = FragmentEditBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        binding.setVm(mViewModel);
+        binding.setEditVm(mViewModel);
         return binding.getRoot();
     }
 

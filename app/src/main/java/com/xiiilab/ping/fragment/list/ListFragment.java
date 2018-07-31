@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.xiiilab.ping.R;
 import com.xiiilab.ping.activity.HostDetailActivity;
+import com.xiiilab.ping.databinding.HostListFragmentBinding;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.viewmodel.ListViewModel;
 
@@ -37,9 +36,11 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        RecyclerView rv = (RecyclerView) inflater.inflate(R.layout.host_list_fragment, container, false);
-        rv.setAdapter(new RecyclerViewAdapter(this, mListViewModel));
-        return rv;
+        HostListFragmentBinding binding = HostListFragmentBinding.inflate(inflater, container, false);
+        binding.list.setAdapter(new RecyclerViewAdapter(this, mListViewModel));
+        binding.setLifecycleOwner(this);
+        binding.setListVm(mListViewModel);
+        return binding.getRoot();
     }
 
     private void onHostSelected(@Nullable HostEntity entity) {

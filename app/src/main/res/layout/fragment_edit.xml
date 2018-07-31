@@ -5,7 +5,7 @@
     <data>
 
         <variable
-                name="vm"
+                name="editVm"
                 type="com.xiiilab.ping.viewmodel.edit.EditViewModel"/>
     </data>
 
@@ -21,15 +21,15 @@
                 android:hint="@string/ip_address_hint"
                 app:counterEnabled="true"
                 app:counterMaxLength="@integer/ip_v4_max_length"
-                app:error="@{vm.ipError}">
+                app:error="@{editVm.ipError}">
 
             <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textShortMessage"
                     android:maxLength="@integer/ip_v4_max_length"
-                    android:text="@={vm.entity.host}"
-                    android:enabled="@{safeUnbox(vm.newEntity)}"/>
+                    android:text="@={editVm.entity.host}"
+                    android:enabled="@{safeUnbox(editVm.newEntity)}"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textShortMessage"
                     android:maxLength="@integer/host_title_max_length"
-                    android:text="@={vm.entity.title}"/>
+                    android:text="@={editVm.entity.title}"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -55,12 +55,12 @@
                 android:hint="@string/ping_frequency"
                 app:counterEnabled="true"
                 app:counterMaxLength="@integer/timeout_number_length"
-                app:error="@{vm.frequencyError}">
+                app:error="@{editVm.frequencyError}">
 
             <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.entity.frequency}"
+                    android:text="@={editVm.entity.frequency}"
                     android:inputType="number"
                     android:maxLength="@integer/timeout_number_length"/>
         </android.support.design.widget.TextInputLayout>
@@ -71,12 +71,12 @@
                 android:hint="@string/ping_timeout"
                 app:counterEnabled="true"
                 app:counterMaxLength="@integer/timeout_number_length"
-                app:error="@{vm.timeoutError}">
+                app:error="@{editVm.timeoutError}">
 
             <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.entity.timeout}"
+                    android:text="@={editVm.entity.timeout}"
                     android:inputType="number"
                     android:maxLength="@integer/timeout_number_length"/>
         </android.support.design.widget.TextInputLayout>

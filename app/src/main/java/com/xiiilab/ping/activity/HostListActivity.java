@@ -41,8 +41,10 @@ public class HostListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         ListViewModel listViewModel = ViewModelProviders.of(this).get(ListViewModel.class);
-        listViewModel.setRepository(Repository.getInstance());
-        listViewModel.setItemViewModelProvider(this::getItemViewModel);
+        if (!listViewModel.isInitialised()) {
+            listViewModel.setRepository(Repository.getInstance());
+            listViewModel.setItemViewModelProvider(this::getItemViewModel);
+        }
 
         setContentView(R.layout.host_list_activity);
 

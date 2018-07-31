@@ -27,4 +27,5 @@
     <string name="app_source_link" translatable="false">https://github.com/XIII-th/ping</string>
     <string name="network_tools_source_link" translatable="false">https://github.com/stealthcopter/AndroidNetworkTools</string>
     <string name="mp_chart_source_link" translatable="false">https://github.com/PhilJay/MPAndroidChart</string>
+    <string name="add_new_host_to_start">Add host to start monitoring</string>
 </resources>

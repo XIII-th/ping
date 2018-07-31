@@ -32,7 +32,7 @@ public class DetailFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         HostDetailFragmentBinding binding = HostDetailFragmentBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        binding.setVm(mDetailViewModel);
+        binding.setDetailVm(mDetailViewModel);
 
         // this subscription required to call chart.invalidate()
         mDetailViewModel.getLastEntry().observe(this, new ChartUpdater(binding.pingChart));

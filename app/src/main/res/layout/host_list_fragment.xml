@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
+<layout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/list"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:listitem="@layout/list_item"/>
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="listVm"
+                type="com.xiiilab.ping.viewmodel.ListViewModel"/>
+    </data>
+
+    <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:visibility="@{safeUnbox(listVm.empty) ? View.GONE : View.VISIBLE}"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/list_item"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="@{safeUnbox(listVm.empty) ? View.VISIBLE : View.GONE}"
+                android:text="@string/add_new_host_to_start"
+                android:drawableTop="@drawable/ip_network"/>
+    </RelativeLayout>
+</layout>
