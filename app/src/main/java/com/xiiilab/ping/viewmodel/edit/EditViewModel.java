@@ -81,7 +81,9 @@ public class EditViewModel extends AndroidViewModel {
     private void setupEntity(HostEntity entity) {
         if (entity == null) {
             mNewEntity.setValue(Boolean.TRUE);
-            mEntity.setValue(new HostEntity(""));
+            HostEntity newEntity = new HostEntity("");
+            newEntity.setCreated(System.currentTimeMillis());
+            mEntity.setValue(newEntity);
         } else {
             mNewEntity.setValue(Boolean.FALSE);
             mEntity.setValue(entity);

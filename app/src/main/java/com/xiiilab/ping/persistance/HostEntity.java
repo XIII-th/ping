@@ -1,8 +1,10 @@
 package com.xiiilab.ping.persistance;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Created by XIII-th on 17.07.2018
@@ -20,9 +22,17 @@ public class HostEntity {
 
     private int timeout;
 
+    private long created;
+
     public HostEntity(@NonNull String host) {
         this.host = host;
         frequency = timeout = 1000;
+    }
+
+    @Ignore
+    public HostEntity(@NonNull String host, @Nullable String title) {
+        this(host);
+        setTitle(title);
     }
 
     @NonNull
@@ -56,6 +66,14 @@ public class HostEntity {
 
     public void setTimeout(int timeout) {
         this.timeout = timeout;
+    }
+
+    public long getCreated() {
+        return created;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
     }
 
     @Override

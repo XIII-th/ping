@@ -25,6 +25,6 @@ public interface HostDao {
     @Query("SELECT * FROM hosts WHERE host = :host")
     HostEntity getSync(String host);
 
-    @Query("SELECT host FROM hosts")
+    @Query("SELECT host FROM hosts ORDER BY created ASC")
     LiveData<List<String>> hostList();
 }
