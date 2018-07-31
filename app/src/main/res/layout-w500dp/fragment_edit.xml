@@ -49,36 +49,45 @@
                     android:text="@={vm.entity.title}"/>
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/ping_frequency"
-                app:counterEnabled="true"
-                app:counterMaxLength="@integer/timeout_number_length"
-                app:error="@{vm.frequencyError}">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
-            <android.support.design.widget.TextInputEditText
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.entity.frequency}"
-                    android:inputType="number"
-                    android:maxLength="@integer/timeout_number_length"/>
-        </android.support.design.widget.TextInputLayout>
+                    android:layout_weight="1"
+                    android:hint="@string/ping_frequency"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/timeout_number_length"
+                    app:error="@{vm.frequencyError}">
 
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/ping_timeout"
-                app:counterEnabled="true"
-                app:counterMaxLength="@integer/timeout_number_length"
-                app:error="@{vm.timeoutError}">
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={vm.entity.frequency}"
+                        android:inputType="number"
+                        android:maxLength="@integer/timeout_number_length"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.entity.timeout}"
-                    android:inputType="number"
-                    android:maxLength="@integer/timeout_number_length"/>
-        </android.support.design.widget.TextInputLayout>
+                    android:layout_weight="1"
+                    android:hint="@string/ping_timeout"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/timeout_number_length"
+                    app:error="@{vm.timeoutError}">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={vm.entity.timeout}"
+                        android:inputType="number"
+                        android:maxLength="@integer/timeout_number_length"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>
