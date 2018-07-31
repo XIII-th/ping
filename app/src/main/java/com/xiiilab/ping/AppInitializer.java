@@ -5,7 +5,7 @@ import com.xiiilab.ping.ping.PingRequestExecutor;
 import com.xiiilab.ping.repository.Repository;
 
 /**
- * Created by Sergey on 19.07.2018
+ * Created by XIII-th on 19.07.2018
  */
 public class AppInitializer extends Application {
 

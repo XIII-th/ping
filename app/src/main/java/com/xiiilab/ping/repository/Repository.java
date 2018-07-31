@@ -9,7 +9,7 @@ import com.xiiilab.ping.persistance.HostEntity;
 import java.util.List;
 
 /**
- * Created by Sergey on 18.07.2018
+ * Created by XIII-th on 18.07.2018
  */
 public class Repository {
 

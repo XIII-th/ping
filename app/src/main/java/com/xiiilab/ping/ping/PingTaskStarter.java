@@ -9,7 +9,7 @@ import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.repository.Repository;
 
 /**
- * Created by Sergey on 22.07.2018
+ * Created by XIII-th on 22.07.2018
  */
 class PingTaskStarter implements Runnable, Ping.PingListener {
 

@@ -16,6 +16,9 @@ import com.xiiilab.ping.activity.HostDetailActivity;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.viewmodel.ListViewModel;
 
+/**
+ * Created by XIII-th on 18.07.2018
+ */
 public class ListFragment extends Fragment {
 
     private ListViewModel mListViewModel;

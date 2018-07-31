@@ -9,8 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.xiiilab.ping.R;
 import com.xiiilab.ping.repository.Repository;
-import com.xiiilab.ping.viewmodel.EditViewModel;
+import com.xiiilab.ping.viewmodel.edit.EditViewModel;
 
+/**
+ * Created by XIII-th on 21.07.2018
+ */
 public class EditActivity extends AppCompatActivity {
 
     public static final String EDIT_ENTITY_ID = "com.xiiilab.ping.activity.EditActivity EDIT_ENTITY_ID";
@@ -41,13 +44,17 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // create meny with one option - save
+        // create menu with one option - save
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
 
     public void onSaveClicked(MenuItem item) {
-        if (mViewModel.save())
+        mViewModel.save().observe(this, this::onSaveCompleted);
+    }
+
+    private void onSaveCompleted(Boolean success) {
+        if (success)
             // changes successfully applied
             finish();
     }

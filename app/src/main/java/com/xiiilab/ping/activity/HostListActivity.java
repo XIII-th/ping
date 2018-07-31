@@ -16,6 +16,9 @@ import com.xiiilab.ping.viewmodel.DetailViewModel;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
 import com.xiiilab.ping.viewmodel.ListViewModel;
 
+/**
+ * Created by XIII-th on 18.07.2018
+ */
 public class HostListActivity extends AppCompatActivity {
 
     private static final String SELECTED_HOST = "com.xiiilab.ping.activity.HostListActivity SELECTED_HOST";

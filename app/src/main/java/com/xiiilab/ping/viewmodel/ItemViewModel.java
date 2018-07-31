@@ -18,7 +18,7 @@ import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.repository.Repository;
 
 /**
- * Created by Sergey on 17.07.2018
+ * Created by XIII-th on 17.07.2018
  */
 public class ItemViewModel extends AndroidViewModel {
 

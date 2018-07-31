@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Created by Sergey on 18.07.2018
+ * Created by XIII-th on 18.07.2018
  */
 public class PingRequestExecutor implements LifecycleObserver {
 

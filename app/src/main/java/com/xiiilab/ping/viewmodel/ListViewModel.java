@@ -10,6 +10,9 @@ import com.xiiilab.ping.repository.Repository;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Created by XIII-th on 18.07.2018
+ */
 public class ListViewModel extends ViewModel {
 
     private final MediatorLiveData<HostEntity> mSelected = new MediatorLiveData<>();

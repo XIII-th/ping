@@ -9,8 +9,10 @@
     <string name="ping_timeout">Ping timeout (ms)</string>
     <string name="ping_frequency">Ping frequency (ms)</string>
     <string name="wrong_ip_address">Wrong ip address format</string>
+    <string name="host_already_exist">Host already exist</string>
     <string name="frequency_must_be_positive">Frequency must be positive</string>
     <string name="timeout_must_be_positive">Timeout must be positive</string>
+    <string name="something_went_wrong">Something went wrong. Try again</string>
     <string name="ping_command_failed">Ping command failed</string>
     <string name="unable_to_execute_ping_command">Unable to execute ping command</string>
     <string name="unexpected_ping_error">Unexpected ping error</string>

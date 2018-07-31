@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.xiiilab.ping.databinding.FragmentEditBinding;
-import com.xiiilab.ping.viewmodel.EditViewModel;
+import com.xiiilab.ping.viewmodel.edit.EditViewModel;
 
-
+/**
+ * Created by XIII-th on 21.07.2018
+ */
 public class EditFragment extends Fragment {
 
     private EditViewModel mViewModel;

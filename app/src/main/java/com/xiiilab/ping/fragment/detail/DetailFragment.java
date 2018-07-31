@@ -12,6 +12,9 @@ import com.xiiilab.ping.R;
 import com.xiiilab.ping.databinding.HostDetailFragmentBinding;
 import com.xiiilab.ping.viewmodel.DetailViewModel;
 
+/**
+ * Created by XIII-th on 18.07.2018
+ */
 public class DetailFragment extends Fragment {
 
     private DetailViewModel mDetailViewModel;

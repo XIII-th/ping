@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 /**
- * Created by Sergey on 23.07.2018
+ * Created by XIII-th on 23.07.2018
  */
 class RefreshTask implements Runnable {
 

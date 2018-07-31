@@ -6,7 +6,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
 /**
- * Created by Sergey on 26.07.2018
+ * Created by XIII-th on 26.07.2018
  */
 public class ChartUpdater implements Observer<Entry> {
 

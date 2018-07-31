@@ -4,7 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
 /**
- * Created by Sergey on 18.07.2018
+ * Created by XIII-th on 18.07.2018
  */
 @Database(entities = HostEntity.class, version = 1)
 public abstract class DataBase extends RoomDatabase {

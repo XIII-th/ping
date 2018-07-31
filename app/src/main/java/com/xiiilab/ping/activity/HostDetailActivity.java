@@ -10,6 +10,9 @@ import com.xiiilab.ping.ping.PingRequestExecutor;
 import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.viewmodel.DetailViewModel;
 
+/**
+ * Created by XIII-th on 20.07.2018
+ */
 public class HostDetailActivity extends AppCompatActivity {
 
     public static final String HOST = "com.xiiilab.ping.activity.HostDetailActivity HOST";

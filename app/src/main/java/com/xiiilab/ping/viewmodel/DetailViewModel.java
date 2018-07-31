@@ -16,7 +16,7 @@ import com.xiiilab.ping.persistance.HostEntity;
 import java.util.ArrayList;
 
 /**
- * Created by Sergey on 25.07.2018
+ * Created by XIII-th on 25.07.2018
  */
 public class DetailViewModel extends ItemViewModel {
 

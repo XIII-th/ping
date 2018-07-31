@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Created by Sergey on 22.07.2018
+ * Created by XIII-th on 22.07.2018
  */
 class TxExecutor {
 

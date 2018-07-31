@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 /**
- * Created by Sergey on 17.07.2018
+ * Created by XIII-th on 17.07.2018
  */
 @Entity(tableName = "hosts")
 public class HostEntity {

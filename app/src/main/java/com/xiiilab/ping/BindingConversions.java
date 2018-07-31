@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 
 /**
- * Created by Sergey on 21.07.2018
+ * Created by XIII-th on 21.07.2018
  */
 public class BindingConversions {
 
