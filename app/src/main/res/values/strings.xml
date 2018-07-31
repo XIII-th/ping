@@ -19,4 +19,12 @@
     <string name="current_ping_format" formatted="false">%s ms</string>
     <string name="chart_legend">Ping (ms)</string>
     <string name="chart_values_count" formatted="true">Last %d values</string>
+    <string name="app_source">App source</string>
+    <string name="network_tools_source">Android network tools</string>
+    <string name="mp_chart_source">MP android chart</string>
+    <string name="unable_to_open_link">Unable resolve app to open web link</string>
+
+    <string name="app_source_link" translatable="false">https://github.com/XIII-th/ping</string>
+    <string name="network_tools_source_link" translatable="false">https://github.com/stealthcopter/AndroidNetworkTools</string>
+    <string name="mp_chart_source_link" translatable="false">https://github.com/PhilJay/MPAndroidChart</string>
 </resources>

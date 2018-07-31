@@ -3,11 +3,16 @@ package com.xiiilab.ping.activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import com.xiiilab.ping.R;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.ping.PingRequestExecutor;
@@ -15,6 +20,8 @@ import com.xiiilab.ping.repository.Repository;
 import com.xiiilab.ping.viewmodel.DetailViewModel;
 import com.xiiilab.ping.viewmodel.ItemViewModel;
 import com.xiiilab.ping.viewmodel.ListViewModel;
+
+import java.util.List;
 
 /**
  * Created by XIII-th on 18.07.2018
@@ -54,6 +61,37 @@ public class HostListActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_refs, menu);
+        return true;
+    }
+
+    public void onOpenSourceLinkClicked(MenuItem item) {
+        String sourceLink;
+        switch (item.getItemId()) {
+            case R.id.app_source:
+                sourceLink = getString(R.string.app_source_link);
+                break;
+            case R.id.network_tools_source:
+                sourceLink = getString(R.string.network_tools_source_link);
+                break;
+            case R.id.mp_chart_source:
+                sourceLink = getString(R.string.mp_chart_source_link);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected menu item " + item.getTitle());
+        }
+
+        Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sourceLink));
+        PackageManager packageManager = getPackageManager();
+        List<?> activities = packageManager.queryIntentActivities(openUrlIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (activities.isEmpty())
+            Toast.makeText(this, R.string.unable_to_open_link, Toast.LENGTH_LONG).show();
+        else
+            startActivity(openUrlIntent);
     }
 
     @Override
