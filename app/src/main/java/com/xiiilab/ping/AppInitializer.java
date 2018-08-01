@@ -3,6 +3,7 @@ package com.xiiilab.ping;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import com.xiiilab.ping.persistance.HostEntity;
 import com.xiiilab.ping.ping.PingRequestExecutor;
@@ -26,6 +27,8 @@ public class AppInitializer extends Application {
             new DbInitializer(Repository.getInstance()).execute();
             preferences.edit().putBoolean(FIRST_START_PREFERENCE_KEY, false).apply();
         }
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     private static class DbInitializer extends AsyncTask<Void, Void, Void> {

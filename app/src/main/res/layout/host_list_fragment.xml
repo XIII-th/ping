@@ -32,6 +32,6 @@
                 android:layout_centerHorizontal="true"
                 android:visibility="@{safeUnbox(listVm.empty) ? View.VISIBLE : View.GONE}"
                 android:text="@string/add_new_host_to_start"
-                android:drawableTop="@drawable/ip_network"/>
+                android:drawableTop="@drawable/ip_network_compat"/>
     </RelativeLayout>
 </layout>

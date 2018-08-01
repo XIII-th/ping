@@ -74,6 +74,6 @@
                 android:layout_centerHorizontal="true"
                 android:visibility="@{safeUnbox(detailVm.entitySelected) ? View.GONE : View.VISIBLE}"
                 android:text="@string/select_host"
-                android:drawableTop="@drawable/chart_line"/>
+                android:drawableTop="@drawable/chart_line_compat"/>
     </RelativeLayout>
 </layout>
