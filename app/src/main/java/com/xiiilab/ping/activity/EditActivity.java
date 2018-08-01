@@ -50,7 +50,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void onSaveClicked(MenuItem item) {
-        mViewModel.save().observe(this, this::onSaveCompleted);
+        mViewModel.save(this).observe(this, this::onSaveCompleted);
     }
 
     private void onSaveCompleted(Boolean success) {

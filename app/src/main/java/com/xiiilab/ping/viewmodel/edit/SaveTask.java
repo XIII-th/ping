@@ -14,14 +14,14 @@ import java.util.List;
 /**
  * Created by XIII-th on 31.07.2018
  */
-class SaveObserver extends AsyncTask<HostEntity, Void, Boolean> {
+class SaveTask extends AsyncTask<HostEntity, Void, Boolean> {
 
     private final MutableLiveData<Boolean> mResult = new MutableLiveData<>();
     private final List<Function<HostEntity, Boolean>> mCheckList;
     private final Repository mRepository;
 
     @SafeVarargs
-    public SaveObserver(Repository repository, Function<HostEntity, Boolean>... checkList) {
+    public SaveTask(Repository repository, Function<HostEntity, Boolean>... checkList) {
         mRepository = repository;
         mCheckList = Arrays.asList(checkList);
     }

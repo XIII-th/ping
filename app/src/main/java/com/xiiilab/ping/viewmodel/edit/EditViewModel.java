@@ -1,10 +1,7 @@
 package com.xiiilab.ping.viewmodel.edit;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.*;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,7 +20,7 @@ public class EditViewModel extends AndroidViewModel {
     private final MutableLiveData<String> mErrorTimeout = new MutableLiveData<>();
     private final MutableLiveData<Boolean> mNewEntity = new MutableLiveData<>();
     private final MediatorLiveData<HostEntity> mEntity;
-    private SaveObserver mSaveObserver;
+    private SaveTask mSaveTask;
     private Repository mRepository;
 
     @SuppressWarnings("unchecked")
@@ -70,12 +67,19 @@ public class EditViewModel extends AndroidViewModel {
     }
 
     @MainThread
-    public LiveData<Boolean> save() {
+    public LiveData<Boolean> save(LifecycleOwner owner) {
         // TODO: 31.07.2018 apply best practices. This solution looks weird
         cancelSave();
-        mSaveObserver = new SaveObserver(mRepository, this::checkIp, this::checkFrequency, this::checkTimeout);
-        mEntity.observeForever(mSaveObserver::startWith);
-        return mSaveObserver.getSaveResult();
+        mSaveTask = new SaveTask(mRepository, this::checkIp, this::checkFrequency, this::checkTimeout);
+        // add observer for delivering entity to save task
+        Observer<HostEntity> entityObserver = mSaveTask::startWith;
+        mEntity.observe(owner, entityObserver);
+        // get result provider
+        LiveData<Boolean> result = mSaveTask.getSaveResult();
+        // remove save task observer after task complete
+        // TODO: 01.08.2018 observer will not be removed if task will be cancelled
+        result.observe(owner, ignored -> mEntity.removeObserver(entityObserver));
+        return mSaveTask.getSaveResult();
     }
 
     private void setupEntity(HostEntity entity) {
@@ -96,9 +100,9 @@ public class EditViewModel extends AndroidViewModel {
     }
 
     private void cancelSave() {
-        if (mSaveObserver != null) {
-            mSaveObserver.cancel(true);
-            mSaveObserver = null;
+        if (mSaveTask != null) {
+            mSaveTask.cancel(true);
+            mSaveTask = null;
         }
     }
 
@@ -109,24 +113,27 @@ public class EditViewModel extends AndroidViewModel {
         String error = null;
         if (!Patterns.IP_ADDRESS.matcher(entity.getHost()).find())
             error = getApplication().getString(R.string.wrong_ip_address);
-        else if (mRepository.getSync(entity.getHost()) != null)
-            error = getApplication().getString(R.string.host_already_exist);
+        else {
+            HostEntity exist = mRepository.getSync(entity.getHost());
+            if (exist != null && exist.getCreated() != entity.getCreated())
+                error = getApplication().getString(R.string.host_already_exist);
+        }
         mErrorIp.postValue(error);
         return error == null;
     }
 
     private boolean checkFrequency(HostEntity entity) {
         String error = null;
-        if (entity.getFrequency() <= 0)
-            error = getApplication().getString(R.string.frequency_must_be_positive);
+        if (entity.getFrequency() < 100)
+            error = getApplication().getString(R.string.frequency_must_be_more_hundred_ms);
         mErrorFrequency.postValue(error);
         return error == null;
     }
 
     private boolean checkTimeout(HostEntity entity) {
         String error = null;
-        if (entity.getTimeout() <= 0)
-            error = getApplication().getString(R.string.timeout_must_be_positive);
+        if (entity.getTimeout() < 1000)
+            error = getApplication().getString(R.string.timeout_must_be_more_one_second);
         mErrorTimeout.postValue(error);
         return error == null;
     }

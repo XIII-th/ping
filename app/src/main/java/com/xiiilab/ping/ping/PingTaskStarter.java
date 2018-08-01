@@ -58,7 +58,8 @@ class PingTaskStarter implements Runnable, Ping.PingListener {
             mPing = Ping.
                     onAddress(mEntity.getHost()).
                     setDelayMillis(mEntity.getFrequency()).
-                    setTimes(mEntity.getTimeout()).
+                    setTimeOutMillis(mEntity.getTimeout()).
+                    setTimes(0).
                     doPing(this);
         }
         Log.d(TAG, "Ping loop for host " + mEntity + " successfully started");

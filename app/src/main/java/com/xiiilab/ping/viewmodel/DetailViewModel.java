@@ -41,6 +41,7 @@ public class DetailViewModel extends ItemViewModel {
         addChartEntry(null);
         LineData lineData = new LineData(mDataSet);
         mDataSet.setDrawCircleHole(false);
+        mDataSet.setCircleColor(getApplication().getResources().getColor(R.color.colorChart));
         lineData.setDrawValues(false);
     }
 
