@@ -10,6 +10,13 @@ android {
         versionName "0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
+        setProperty("archivesBaseName", "iPing v" + versionName + " (" + versionCode + ")")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
