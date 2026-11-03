@@ -1,17 +1,19 @@
 apply plugin: 'com.android.application'
 
+def vName = "0.5.3"
+def vCode = 4
+
 android {
-    compileSdkVersion 36
+    compileSdkVersion 37
     defaultConfig {
         namespace "com.xiiilab.ping"
         applicationId "com.xiiilab.ping"
         minSdkVersion 19
-        targetSdkVersion 36
-        versionCode 3
-        versionName "0.5.2"
+        targetSdkVersion 37
+        versionCode vCode
+        versionName vName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
-        setProperty("archivesBaseName", "iPing v" + versionName + " (" + versionCode + ")")
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -27,15 +29,16 @@ android {
     }
     buildFeatures {
         buildConfig = true
-    }
-
-    dataBinding {
-        enabled = true
+        dataBinding = true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+base {
+    archivesName.set("iPing-v$vName-$vCode")
 }
 
 dependencies {
